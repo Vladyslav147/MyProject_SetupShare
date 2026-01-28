@@ -1,0 +1,64 @@
+/* === БАЗОВЫЕ СТИЛИ (SOLID DARK) === */
+:root {
+    --bg-main: #050505;
+    --bg-card: #0d0d0d;
+    --accent-blue: #3b82f6;
+    --text-main: #e2e8f0;
+    --border-color: #1f1f1f;
+}
+
+body {
+    background-color: var(--bg-main);
+    background-image: 
+        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.03) 0%, transparent 30%),
+        radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.03) 0%, transparent 30%);
+    background-attachment: fixed;
+    color: var(--text-main);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Ширина контейнера 1400px для Aliosza */
+.container { 
+    max-width: 1400px; 
+}
+
+.navbar {
+    background: var(--bg-main);
+    border-bottom: 1px solid #1a1a1a;
+    padding: 20px 0;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    color: #ffffff !important;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+/* Основной контейнер приветствия */
+.user-greeting {
+    margin-right: 35px; /* Увеличил отступ от кнопки, так как текст стал больше */
+    color: #94a3b8;     /* Приглушенный серый */
+    font-size: 1.1rem;  /* БЫЛО 0.9rem, СТАЛО 1.1rem (теперь текст крупнее) */
+    display: flex;
+    align-items: center;
+    font-weight: 500;   /* Сделал само слово "Привет" чуть плотнее */
+}
+
+/* Стиль для самого имени */
+.user-name {
+    color: #ffffff;      
+    font-weight: 800;    /* Сделал имя еще жирнее для контраста */
+    margin-left: 8px;    /* Чуть увеличил зазор после запятой */
+    font-size: 1.15rem;  /* Имя теперь чуть больше, чем слово "Привет" */
+    transition: 0.3s;
+}
+
+.user-name:hover {
+    color: #3b82f6;      /* Твой любимый синий акцент */
+    cursor: default;
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); /* Добавил легкое синее свечение при наведении */
+}
+

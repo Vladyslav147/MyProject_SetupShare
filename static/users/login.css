@@ -1,0 +1,190 @@
+/* Общие настройки */
+:root {
+    --bg-color: #000000;
+    --card-bg: #0f0f0f;
+    --input-bg: #1a1a1a;
+    --accent-color: #ffffff;
+    --text-gray: #888888;
+    --neon-blue: #00d4ff;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+}
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Увеличенный контейнер */
+.login-container {
+    width: 100%;
+    max-width: 520px; /* Было 400, стало 520 — теперь форма внушительнее */
+    text-align: center;
+}
+
+.logo {
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: -1.5px;
+}
+
+/* Сама карточка формы */
+.login-form {
+    background: var(--card-bg);
+    padding: 60px 50px; /* Огромные отступы для "воздуха" */
+    border-radius: 24px;
+    border: 1px solid #222;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-gray);
+    margin-bottom: 45px;
+    font-size: 16px;
+}
+
+/* Поля ввода с эффектом фокуса */
+.input-field {
+    position: relative;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 20px;
+    background: var(--input-bg);
+    border: 1px solid #333;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-field label {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    color: var(--text-gray);
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+/* Анимация лейбла при вводе */
+.input-field input:focus ~ label,
+.input-field input:not(:placeholder-shown) ~ label {
+    top: -10px;
+    left: 15px;
+    font-size: 12px;
+    background: var(--card-bg);
+    padding: 0 5px;
+    color: var(--accent-color);
+}
+
+.input-field input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+}
+
+/* Чекбокс и ссылка */
+.extra-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    font-size: 14px;
+}
+
+.forgot-link {
+    color: var(--text-gray);
+    text-decoration: none;
+}
+
+.forgot-link:hover { color: #fff; }
+
+/* Большая кнопка как на скрине */
+.login-button {
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.login-button:hover {
+    background: #ccc;
+    transform: scale(1.02);
+}
+
+.register-offer {
+    margin-top: 30px;
+    color: var(--text-gray);
+}
+
+.register-offer a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.error-message {
+    color: #ff4d4d; /* Красный цвет под твой стиль */
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Позиция label, когда в поле есть текст ИЛИ когда стоит курсор */
+.input-field input:focus ~ label,
+.input-field input:not(:placeholder-shown) ~ label {
+    top: -14px;           /* Поднимаем надпись */
+    font-size: 14px;      /* Уменьшаем шрифт */
+    color: #ffffff;       /* Всегда белый цвет */
+    background: #050505;  /* Цвет фона твоего сайта */
+    padding: 0 5px;       /* Отступ, чтобы рамка не прилипала */
+    z-index: 10;          /* Чтобы надпись была поверх всего */
+    opacity: 1;           /* Делаем текст четким */
+}
+
+/* Обращаемся именно к ссылке внутри класса .logo */
+.logo a {
+    color: #ffffff !important; /* Насильно делаем белым */
+    text-decoration: none;     /* Убираем синее подчеркивание */
+    font-size: 36px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1.5px;
+    display: inline-block;     /* Чтобы отступы работали корректно */
+    transition: 0.3s;          /* Плавность для наведения */
+}
+
+/* Добавим эффект при наведении, чтобы логотип "оживал" */
+.logo a:hover {
+    color: #d1d1d1 !important; /* Становится чуть серым */
+    transform: scale(1.02);    /* Слегка увеличивается */
+}

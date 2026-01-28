@@ -1,0 +1,46 @@
+{% extends "base_auth.html" %}
+{% load static %}
+
+{% block title %}
+    Регистрация
+{% endblock title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static "users/register.css" %}">
+{% endblock extra_css %}
+
+{% block content %}
+    <main class="auth-page">
+        <div class="login-container">
+            <div class="logo"><a href="{% url 'main:main_page' %}">SetupShare</a></div>
+            
+            <form class="login-form" method='post'>
+                <h1>Создать аккаунт</h1>
+                <p class="subtitle">Стань частью сообщества и делись своим сетапом</p>
+                {% csrf_token %}
+
+                {% for input in form %}
+                <div class="input-field">
+                    
+                    {{ input }}
+
+                    {% if input.errors %}
+                        <div class='error'>
+                            {{ input.errors }}
+                        </div>
+                    {% endif %}
+                    
+                    <label for="username">{{input.label}}</label>
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="login-button">ЗАРЕГИСТРИРОВАТЬСЯ</button>
+
+                <div class="register-offer">
+                    Уже есть аккаунт? <a href="{% url 'users:login'%}">Войти</a>
+                </div>
+            </form>
+
+        </div>
+    </main>
+{% endblock content %}

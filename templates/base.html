@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Главная страница{% endblock %}</title>
+    {% block extra_css %}{% endblock extra_css %}
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand " href="{% url 'main:main_page'%}">SetupShare</a>
+            <div class="d-flex align-items-center">
+
+            {% if user.is_authenticated %}
+                <span class="user-greeting d-none d-md-block">
+                    Привет - <span class="user-name">{{ user.username }}!</span>
+                </span>
+
+                <a href="#" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold me-2">ПРОФИЛЬ</a>
+
+                <form action="{% url 'users:logout'%}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold">ВЫЙТИ</button>
+                </form>
+                
+            {% else %}
+                <a href="{% url 'users:login'%}" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold">ВОЙТИ</a>
+            {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

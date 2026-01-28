@@ -1,0 +1,161 @@
+:root {
+    --bg-color: #000000;
+    --card-bg: #0f0f0f;
+    --input-bg: #1a1a1a;
+    --accent-color: #ffffff;
+    --text-gray: #888888;
+    --neon-blue: #00d4ff;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: var(--bg-color);
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+}
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px; /* Увеличил отступы сверху/снизу для длинной формы */
+}
+
+.login-container {
+    width: 100%;
+    max-width: 520px;
+    text-align: center;
+}
+
+.logo {
+    color: #ffffff !important;
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: -1.5px;
+}
+
+.login-form {
+    background: var(--card-bg);
+    padding: 50px;
+    border-radius: 24px;
+    border: 1px solid #222;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-gray);
+    margin-bottom: 35px;
+    font-size: 15px;
+}
+
+/* Поля ввода */
+.input-field {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 18px 20px;
+    background: var(--input-bg);
+    border: 1px solid #333;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.input-field label {
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    color: var(--text-gray);
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+/* Анимация лейбла */
+.input-field input:focus ~ label,
+.input-field input:not(:placeholder-shown) ~ label {
+    top: -10px;
+    left: 15px;
+    font-size: 12px;
+    background: var(--card-bg);
+    padding: 0 5px;
+    color: var(--accent-color);
+}
+
+.input-field input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+}
+
+/* Кнопка */
+.login-button {
+    width: 100%;
+    padding: 18px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
+
+.login-button:hover {
+    background: #ccc;
+    transform: translateY(-2px);
+}
+
+.register-offer {
+    margin-top: 25px;
+    color: var(--text-gray);
+}
+
+.register-offer a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.error {
+    color: #ff4d4d; /* Красный цвет под твой стиль */
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+
+/* Обращаемся именно к ссылке внутри класса .logo */
+.logo a {
+    color: #ffffff !important; /* Насильно делаем белым */
+    text-decoration: none;     /* Убираем синее подчеркивание */
+    font-size: 36px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1.5px;
+    display: inline-block;     /* Чтобы отступы работали корректно */
+    transition: 0.3s;          /* Плавность для наведения */
+}
+
+/* Добавим эффект при наведении, чтобы логотип "оживал" */
+.logo a:hover {
+    color: #d1d1d1 !important; /* Становится чуть серым */
+    transform: scale(1.02);    /* Слегка увеличивается */
+}

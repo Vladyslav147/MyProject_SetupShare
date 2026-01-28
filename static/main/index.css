@@ -1,0 +1,130 @@
+/* === ГЕРОЙ-СЕКЦИЯ === */
+.hero-section {
+    text-align: center;
+    padding: 80px 0 50px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.hero-subtitle {
+    color: #94a3b8;
+    font-size: 1.2rem;
+}
+
+/* === ФИЛЬТРЫ === */
+.filter-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 70px;
+}
+
+.filter-btn {
+    background: #111;
+    border: 1px solid #222;
+    color: #666;
+    padding: 12px 28px;
+    border-radius: 14px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.filter-btn.active { background: #fff; color: #000; }
+
+/* === КАРТОЧКИ (УВЕЛИЧЕННЫЕ) === */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 28px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-12px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
+}
+
+.card-img-top {
+    height: 320px; /* Твоя увеличенная область фото */
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 40px; /* Твой просторный паддинг */
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* НОВЫЙ ЭЛЕМЕНТ: ВРЕМЯ ПУБЛИКАЦИИ */
+.post-time {
+    color: #444; /* Приглушенный цвет для баланса */
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.card-text {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+/* === ТЕГИ (МИНИМАЛИЗМ) === */
+.badge-custom {
+    background: rgba(255, 255, 255, 0.03);
+    color: #555;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    margin-right: 6px;
+    text-transform: uppercase;
+    border: 1px solid #1a1a1a;
+    display: inline-block;
+}
+
+.card:hover .badge-custom {
+    color: var(--accent-blue);
+}
+
+/* === КНОПКА (КОМПАКТНАЯ) === */
+.btn-details {
+    background: #ffffff;
+    color: #000000;
+    width: fit-content; 
+    padding: 10px 30px;
+    border-radius: 12px;
+    font-weight: 900;
+    border: none;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    transition: 0.2s;
+}
+
+.btn-details:hover {
+    background: var(--accent-blue);
+    color: #fff;
+    transform: scale(1.05);
+}
