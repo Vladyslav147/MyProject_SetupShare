@@ -1,5 +1,5 @@
 from django.db import models
-from SetupShere import settings
+from django.conf import settings
 # Create your models here.
 
 class Tag(models.Model):
@@ -23,7 +23,8 @@ class SetupPosts(models.Model):
     ps = models.CharField(max_length=30, blank=True, null=True, verbose_name='Блок питания')
     comment = models.CharField(max_length=100, verbose_name='Дополнение')
     story_setup = models.TextField(blank=True, null=True, verbose_name='История Сборки')
-    tegs = models.ManyToManyField(Tag, blank=True, verbose_name='Теги')
+    tegs = models.ManyToManyField(Tag, blank=True, verbose_name='Теги', related_name='posts')
+    time = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
