@@ -17,7 +17,7 @@ class UserRegisterForm(UserCreationForm):
         super().__init__(*args, **kwargs)
 
         if 'phone' in self.fields:
-            self.fields['phone'].label = 'Норме телефона'
+            self.fields['phone'].label = 'Номер телефона'
 
         for field_name in self.fields:
             self.fields[field_name].widget.attrs['placeholder'] = ''

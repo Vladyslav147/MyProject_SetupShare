@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -128,6 +128,9 @@ AUTH_USER_MODEL = 'users.CustomRegisterUser'
 #Куда кинуть пользователя ПОСЛЕ того, как он успешно ввел логин и пароль.
 LOGIN_REDIRECT_URL = 'main:main_page'
 #Куда кинуть пользователя, если он НЕ вошел, но пытается зайти на защищенную страницу
-LOGIN_URL = 'main:main_page'
+LOGIN_URL = 'users:login'
+#Куда кинуть пользователя, если он выйдет из акаунта
+LOGOUT_REDIRECT_URL = 'main:main_page'
 
-LOGOUT_REDIRECT_URL = 'users:login'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

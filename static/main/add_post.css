@@ -1,0 +1,138 @@
+/* === СТИЛИ ФОРМЫ (SOLID DARK) === */
+
+:root {
+    --bg-card: #111111;
+    --border-color: #1f1f1f;
+    --accent-blue: #3b82f6;
+}
+
+.form-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 28px;
+    padding: 50px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+
+/* Стилизация меток */
+.form-label {
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: block;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2); 
+}
+
+/* Глобальная стилизация инпутов ВНУТРИ .form-card */
+.form-card input[type="text"],
+.form-card input[type="file"]:not(.upload-area input), /* кроме того, что в спец. зоне */
+.form-card textarea,
+.form-card select {
+    display: block;
+    width: 100%;
+    background-color: #050505;
+    border: 1px solid #1f1f1f;
+    color: #fff !important;
+    padding: 14px 18px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+/* Специальный стиль для маленьких инпутов в галерее */
+.row.g-3 input[type="file"] {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+}
+
+.form-card input:focus, 
+.form-card textarea:focus {
+    background-color: #080808;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    outline: none;
+}
+
+.form-card input::placeholder, 
+.form-card textarea::placeholder {
+    color: #333;
+}
+
+/* ПУНКТИРНАЯ ОБЛАСТЬ ЗАГРУЗКИ */
+.upload-area {
+    border: 2px dashed #1f1f1f;
+    border-radius: 16px;
+    padding: 40px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.upload-area:hover {
+    border-color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.03);
+}
+
+.upload-area i {
+    font-size: 2.5rem;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.upload-area p { color: #666; font-size: 0.9rem; margin: 0; }
+
+.upload-area input {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Чекбоксы */
+.form-check-input {
+    background-color: #0d0d0d;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Кнопка публикации */
+.btn-submit {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 16px;
+    border-radius: 16px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-submit:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
