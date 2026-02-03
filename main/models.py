@@ -14,14 +14,13 @@ class SetupPosts(models.Model):
     more_photo1 = models.ImageField(upload_to='morePhoto1', blank=True, null=True)
     more_photo2 = models.ImageField(upload_to='morePhoto2', blank=True, null=True)
     more_photo3 = models.ImageField(upload_to='morePhoto3', blank=True, null=True)
-
-    cpu = models.CharField(max_length=20, verbose_name='CPU')
-    gpu = models.CharField(max_length=20, verbose_name='GPU')
-    ram = models.CharField(max_length=20, verbose_name='RAM')
+    cpu = models.CharField(max_length=20, verbose_name='Процесор')
+    gpu = models.CharField(max_length=20, verbose_name='Видеокарта')
+    ram = models.CharField(max_length=20, verbose_name='Оперативка')
     ssd = models.CharField(max_length=30, verbose_name='Накопитель')
     monitor = models.CharField(max_length=30, verbose_name='Монитор')
-    ps = models.CharField(max_length=30, blank=True, null=True, verbose_name='Блок питания')
-    comment = models.CharField(max_length=100, verbose_name='Дополнение')
+    ps = models.CharField(max_length=30, blank=True, null=True, verbose_name='БП')
+    comment = models.CharField(blank=True, null=True, max_length=100, verbose_name='Дополнение')
     story_setup = models.TextField(blank=True, null=True, verbose_name='История Сборки')
     tegs = models.ManyToManyField(Tag, blank=True, verbose_name='Теги', related_name='posts')
     time = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
@@ -31,4 +30,17 @@ class SetupPosts(models.Model):
     def __str__(self):
         return self.title
 
+    def get_specs_list(self):
+        field_names = ['cpu', 'gpu', 'ram', 'ssd', 'monitor', 'ps']
+        specs = []
+
+        for name in field_names:
+            label = self._meta.get_field(name)
+            value = getattr(self, name)
+
+            specs.append({
+                'label': label.verbose_name,
+                'value': value    
+            })
+        return specs
 

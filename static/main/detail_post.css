@@ -1,0 +1,173 @@
+/* === СТРАНИЦА ДЕТАЛЬНОГО ПРОСМОТРА === */
+
+/* Главное фото */
+.main-image-container {
+    width: 100%;
+    height: 550px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+.main-image-container img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Галерея */
+.gallery-img {
+    width: 100%; height: 140px; object-fit: cover;
+    border-radius: 16px; border: 1px solid var(--border-color);
+    transition: 0.3s; cursor: pointer;
+}
+.gallery-img:hover { border-color: var(--accent-blue); transform: scale(1.02); }
+
+/* ИСТОРИЯ СБОРКИ */
+.assembly-card {
+    background-color: #0d0d0d;
+    border: 1px solid #333;
+    border-radius: 28px;
+    padding: 50px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+}
+.assembly-title {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1.5px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+.assembly-text {
+    color: #d1d5db;
+    font-size: 1.2rem;
+    line-height: 1.9;
+}
+
+/* КАРТОЧКА SPECS */
+.specs-card {
+    background-color: #0d0d0d;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 30px;
+    position: sticky;
+    top: 100px;
+}
+.specs-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: 30px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+}
+
+.specs-list { list-style: none; padding: 0; margin: 0; }
+.specs-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.specs-label {
+    color: #94a3b8;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+.specs-value { color: #fff; font-weight: 700; font-size: 1rem; }
+
+/* ЛИЧНОЕ ДОПОЛНЕНИЕ */
+.personal-note-simple {
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 1px solid #1a1a1a;
+}
+.note-label-simple {
+    color: var(--accent-blue);
+    font-size: 0.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 12px;
+}
+.note-text-simple {
+    color: #ffffff;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* АВАТАР */
+.post-author-footer {
+    margin-top: 35px;
+    display: flex;
+    align-items: center;
+}
+.post-author-footer .avatar {
+    width: 45px;
+    height: 45px;
+    background-color: var(--accent-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.2rem;
+    border: 2px solid #1a1a1a;
+    flex-shrink: 0;
+}
+
+/* === КНОПКА ЛАЙКА (ОБНОВЛЕННАЯ) === */
+.btn-like {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 2px solid #222;
+    color: #fff;
+    border-radius: 14px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+.btn-like i {
+    font-size: 1.1rem;
+    color: #444; 
+    transition: 0.3s;
+}
+
+/* Эффект наведения */
+.btn-like:hover {
+    border-color: var(--accent-blue);
+    background-color: rgba(59, 130, 246, 0.05);
+    color: var(--accent-blue);
+    transform: translateY(-3px);
+}
+
+.btn-like:hover i {
+    color: var(--accent-blue);
+}
+
+/* === СОСТОЯНИЕ "ЛАЙКНУТО" (АКТИВНОЕ) === */
+.btn-like.liked {
+    background-color: var(--accent-blue) !important;
+    border-color: var(--accent-blue) !important;
+    color: #fff !important;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+}
+
+.btn-like.liked i {
+    color: #fff !important;
+    transform: scale(1.1);
+}
+
+.btn-like.liked .like-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.like-count {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    transition: 0.3s;
+}

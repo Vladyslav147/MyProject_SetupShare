@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Tag, SetupPosts
+from users.models import CustomRegisterUser
+
+
+admin.site.register(CustomRegisterUser)
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

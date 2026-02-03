@@ -35,7 +35,7 @@
 
                             <div class="tags-group">
                                 {% for teg in post.tegs.all|slice:":3" %}
-                                <span class="badge-custom"># {{ teg.name}}</span>
+                                <span class="badge-custom"># {{ teg.name|slice:":6"}}</span>
                                 {% endfor %}
                             </div>
                             
@@ -44,10 +44,15 @@
 
                         <h5 class="card-title">{{post.title}}</h5>
                         <p class="card-text">{{post.story_setup|truncatewords:10}}</p>
-                        
-                        <div class="mt-auto d-flex justify-content-center">
-                            <button onclick="location.href='detail.html'" class="btn-details">ПОДРОБНЕЕ →</button>
-                        </div>
+
+                        <!-- Детальная инфа поста -->
+                        <form action="{% url 'main:detail_post' post.pk %}">
+                            {% csrf_token %}
+                            <div class="mt-auto d-flex justify-content-center">
+                                <button type='submit' onclick="location.href='detail.html'" class="btn-details">ПОДРОБНЕЕ →</button>
+                            </div>
+                        </form>
+
                     </div>
                 </div>
             </div>

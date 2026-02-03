@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>Ты точно хочешь удалить этот мощный сетап?</p>
+    <button type="submit" class="btn btn-danger">ДА, УДАЛИТЬ</button>
+    <a href="{% url 'main:main_page' %}">ОТМЕНА</a>
+</form>
+{% endblock content %}
+
+
+

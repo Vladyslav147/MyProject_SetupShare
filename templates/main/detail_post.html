@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+    {% block title %}Подробнее - SetupShare{% endblock title %}Подробнее -
+    {% block extra_css %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'common.css'%}">
+    <link rel="stylesheet" href="{% static "main/detail_post.css"%}">
+    {% endblock extra_css %}
+
+{% block content %}
+    <div class="container mt-5 mb-5">
+        <a href="{% url 'main:main_page'%}" class="text-decoration-none text-secondary mb-5 d-inline-block fw-bold">
+            <i class="bi bi-arrow-left"></i> НАЗАД В ЛЕНТУ
+        </a>
+
+        <div class="row g-5">
+            <div class="col-lg-8">
+
+                <div class="main-image-container mb-4">
+                    <img src="{{ DetailPost.main_photo.url }}" alt="Main Setup">
+                </div>
+
+                <!-- Проверка на доп.фото -->
+                <div class="row g-3 mb-5">
+                    {% if DetailPost.more_photo1 %}
+                    <div class="col-4">
+                        <img src="{{ DetailPost.more_photo1.url }}" class="gallery-img">
+                    </div>
+                    {% endif %}
+
+                    {% if DetailPost.more_photo2 %}
+                    <div class="col-4">
+                        <img src="{{DetailPost.more_photo2.url }}" class="gallery-img" alt="ПК внутри">
+                    </div>
+                    {% endif %}
+
+                    {% if DetailPost.more_photo3 %}
+                    <div class="col-4">
+                        <img src="{{DetailPost.more_photo3.url}}" class="gallery-img" alt="Мышь">
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="assembly-card">
+                    <h2 class="assembly-title">История сборки</h2>
+                    <p class="assembly-text">
+                        {{DetailPost.story_setup|linebreaksbr}} <!-- linebreaksbr - не игнорирует \n в тексте -->
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="d-grid gap-3 mb-4">
+                    <button class="btn btn-like fw-bold py-3 d-flex align-items-center justify-content-center" id="likeButton">
+                        <i class="bi bi-heart-fill me-2"></i> 
+                        МНЕ НРАВИТСЯ 
+                        <span class="ms-2 like-count">145</span>
+                    </button>
+
+                    <button class="btn btn-warning fw-bold py-3" style="border-radius: 14px;">РЕДАКТИРОВАТЬ</button>
+
+                    <form action="{% url 'main:delet_post' DetailPost.pk %}" class="w-100" method='post'>
+                        {% csrf_token %}
+                        <button type='submit' class="btn btn-outline-danger fw-bold py-3 w-100" style="border-radius: 14px; border-width: 2px;">УДАЛИТЬ ПОСТ</button>
+                    </form>
+                </div>
+
+                <div class="specs-card">
+                    <div class="specs-title">⚙️ ЖЕЛЕЗО (SPECS)</div>
+
+                    <ul class="specs-list">
+                        {% for spec in DetailPost.get_specs_list %}
+                        <li><span class="specs-label">{{spec.label}}</span><span class="specs-value">{{spec.value}}</span></li>
+                        {% endfor %}
+                    </ul>
+
+
+                    <div class="personal-note-simple">
+                        <span class="note-label-simple">Личное дополнение</span>
+                        <p class="note-text-simple">{{DetailPost.comment}}</p>
+                    </div>
+
+                    <div class="post-author-footer">
+                        <div class="avatar me-3">A</div>
+                        <div>
+                            <div class="fw-bold text-white">{{ DetailPost.creator.username}}</div>
+                            <div class="small text-secondary">{{ DetailPost.time|timesince}} назад</div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <script>
+        const btn = document.getElementById('likeButton');
+        const count = btn.querySelector('.like-count');
+        
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('liked');
+            let val = parseInt(count.innerText);
+            count.innerText = btn.classList.contains('liked') ? val + 1 : val - 1;
+        });
+    </script>
+{% endblock content %}
