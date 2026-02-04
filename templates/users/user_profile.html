@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+    {% block title %}Профиль Aliosza — SetupShare{% endblock title %}
+    {% block extra_css %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'common.css'%}">
+    <link rel="stylesheet" href="{% static 'users/user_profile.css'%}">
+    {% endblock extra_css %}
+    
+{% block content %}
+
+    <div class="container mt-5 mb-5">
+        
+        <header class="profile-header">
+            <div class="avatar-large">{{request.user.username|slice:":1"}}</div>
+            <h1 class="profile-name">{{request.user}}</h1>
+            <!-- <p class="text-secondary fw-bold mb-4">Backend Developer</p>  -->
+            
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <span class="stat-number">2</span>
+                    <span class="stat-label">Публикации</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">145</span>
+                    <span class="stat-label">Лайков</span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center mt-5">
+                <a href="{% url 'main:add_post'%}" class="btn btn-success fw-bold px-5 py-3 rounded-4 shadow-lg text-uppercase">
+                    + Добавить новый пост
+                </a>
+            </div>
+        </header>
+        
+        <!-- Филтрация в профиле  -->
+        <div class="profile-nav mb-5">
+            <a href='?status=my' class="profile-nav-btn bi bi-grid-3x3-gap me-2  {% if request.GET.status == 'my'%}active{% endif %}">МОИ ПОСТЫ</a>
+            <a href='?status=like' class="profile-nav-btn bi bi-heart-fill me-2 {% if request.GET.status == 'like'%}active{% endif %}">ПОНРАВИЛОСЬ</a>
+        </div>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+            <!-- цыкл постов  -->
+            {% for posts in post %}
+            <div class="col">
+                <div class="card h-100"> 
+                    <img src="{{ posts.main_photo.url }}" class="card-img-top" alt="Setup">
+                    
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class='tags-container'>
+                                <!-- цыкл тегов поста  -->
+                                {% for tag in posts.tegs.all %}
+                                    <span class="badge-custom">{{ tag.name }}</span>
+                                {% endfor %}
+                            </div>
+                            <span class="post-time">{{ posts.time|timesince }} назад</span>
+                        </div>
+
+                        <h5 class="card-title">{{ posts.title }}</h5>
+                        <p class="card-text">{{ posts.story_setup|truncatewords:10 }}</p>
+
+                        <div class="mt-auto d-flex justify-content-center">
+                            <a href="{{ posts.get_absolute_url }}" class="btn-details-profile">ПОДРОБНЕЕ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>    
+{% endblock content %}

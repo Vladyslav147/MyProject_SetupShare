@@ -19,7 +19,7 @@
                     Hi -<span class="user-name">{{ user.username }}!</span>
                 </span>
 
-                <a href="#" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold me-2">ПРОФИЛЬ</a>
+                <a href="{% url 'users:profile' pk=request.user.pk %}" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold me-2">ПРОФИЛЬ</a>
 
                 <form action="{% url 'users:logout'%}" method="post" style="display: inline;">
                     {% csrf_token %}

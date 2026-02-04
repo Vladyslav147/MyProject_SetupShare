@@ -146,28 +146,41 @@
     color: var(--accent-blue);
 }
 
-/* === СОСТОЯНИЕ "ЛАЙКНУТО" (АКТИВНОЕ) === */
+/* === СОСТОЯНИЕ "ЛАЙКНУТО" (FINAL CLEAN STYLE) === */
 .btn-like.liked {
-    background-color: var(--accent-blue) !important;
-    border-color: var(--accent-blue) !important;
+    /* Глубокий градиент для объема, без эффекта "просто синего пятна" */
+    background: linear-gradient(145deg, #1e40af 0%, #0c1425 100%) !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
     color: #fff !important;
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+    
+    /* Мягкая внешняя тень для глубины, но без лишнего неона */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
 }
 
+/* Иконка: ТЕПЕРЬ ИДЕАЛЬНО РЕЗКАЯ (убрали мыло) */
 .btn-like.liked i {
-    color: #fff !important;
-    transform: scale(1.1);
+    color: #fff !important; /* Чисто белый цвет для контраста */
+    text-shadow: none !important; /* Убрали размытие */
+    filter: none !important;      /* Убрали фильтры */
+    transform: scale(1.1);        /* Оставили легкое увеличение */
 }
 
+/* СЧЕТЧИК: ТЕПЕРЬ БОЛЬШОЙ И БЕЗ ПОЛОСКИ */
 .btn-like.liked .like-count {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
+    background: transparent !important;
+    border: none !important; /* Убрали ту самую черточку (border-left) */
+    padding-left: 8px;
+    margin-left: 4px;
+    
+    /* Делаем цифру акцентной и заметной */
+    font-size: 1.4rem; /* Еще крупнее для наглядности */
+    font-weight: 900;
+    color: #3b82f6; /* Ярко-синий цвет для самой цифры */
 }
 
+/* Базовый стиль счетчика */
 .like-count {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 2px 8px;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    transition: 0.3s;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
 }

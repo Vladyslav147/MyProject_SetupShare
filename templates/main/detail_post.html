@@ -53,18 +53,26 @@
 
             <div class="col-lg-4">
                 <div class="d-grid gap-3 mb-4">
-                    <button class="btn btn-like fw-bold py-3 d-flex align-items-center justify-content-center" id="likeButton">
-                        <i class="bi bi-heart-fill me-2"></i> 
-                        МНЕ НРАВИТСЯ 
-                        <span class="ms-2 like-count">145</span>
-                    </button>
 
-                    <button class="btn btn-warning fw-bold py-3" style="border-radius: 14px;">РЕДАКТИРОВАТЬ</button>
-
-                    <form action="{% url 'main:delet_post' DetailPost.pk %}" class="w-100" method='post'>
+                    <!-- Форма лайка -->
+                    <form action="{% url 'main:posts-likes' DetailPost.pk %}" method='post'>
                         {% csrf_token %}
-                        <button type='submit' class="btn btn-outline-danger fw-bold py-3 w-100" style="border-radius: 14px; border-width: 2px;">УДАЛИТЬ ПОСТ</button>
+                        <button type='submit' class="btn btn-like fw-bold py-3 d-flex align-items-center justify-content-center w-100 {% if request.user in DetailPost.likes.all %}liked{% endif %}">
+                            <i class="bi bi-heart-fill me-2"></i> 
+                            МНЕ НРАВИТСЯ 
+                            <span class="ms-2 like-count">{{ DetailPost.get_total_likes }}</span>
+                        </button>
                     </form>
+
+                    <!-- Твой ли это пост что бы ты мог удалить или редактировать -->
+                    {% if DetailPost.creator == request.user %}
+                        <button class="btn btn-warning fw-bold py-3" style="border-radius: 14px;">РЕДАКТИРОВАТЬ</button>
+                        
+                        <form action="{% url 'main:delet_post' DetailPost.pk %}" class="w-100">
+                            {% csrf_token %}
+                            <button type='submit' class="btn btn-outline-danger fw-bold py-3 w-100" style="border-radius: 14px; border-width: 2px;">УДАЛИТЬ ПОСТ</button>
+                        </form>
+                    {% endif %}
                 </div>
 
                 <div class="specs-card">
@@ -83,7 +91,7 @@
                     </div>
 
                     <div class="post-author-footer">
-                        <div class="avatar me-3">A</div>
+                        <div class="avatar me-3">{{ DetailPost.creator.username|slice:'1'}}</div>
                         <div>
                             <div class="fw-bold text-white">{{ DetailPost.creator.username}}</div>
                             <div class="small text-secondary">{{ DetailPost.time|timesince}} назад</div>
@@ -94,14 +102,4 @@
         </div>
     </div>
 
-    <script>
-        const btn = document.getElementById('likeButton');
-        const count = btn.querySelector('.like-count');
-        
-        btn.addEventListener('click', () => {
-            btn.classList.toggle('liked');
-            let val = parseInt(count.innerText);
-            count.innerText = btn.classList.contains('liked') ? val + 1 : val - 1;
-        });
-    </script>
 {% endblock content %}

@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.db.models import Count
+from django.urls import reverse
 # Create your models here.
 
 class Tag(models.Model):
@@ -25,6 +27,7 @@ class SetupPosts(models.Model):
     tegs = models.ManyToManyField(Tag, blank=True, verbose_name='Теги', related_name='posts')
     time = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
 
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='post_likes')
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -43,4 +46,11 @@ class SetupPosts(models.Model):
                 'value': value    
             })
         return specs
+    
+    # Возвращает всё количество лайков для этого конкретного поста
+    def get_total_likes(self):
+        return self.likes.count()
 
+    def get_absolute_url(self):
+        return reverse("main:detail_post", kwargs={"pk": self.pk})
+    

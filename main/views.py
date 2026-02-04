@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView
-from django.views.generic import CreateView, DeleteView, DetailView
+from main import models
+from django.views.generic import CreateView, DeleteView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CreateNewPostForm
 from .models import SetupPosts
 from django.urls import reverse_lazy
+from django.db.models import Count
 # Create your views here.
 
 class MainPagePostViews(ListView):
@@ -37,8 +39,20 @@ class Detail_PostView(LoginRequiredMixin, DetailView):
     template_name  = 'main/detail_post.html'
     model = SetupPosts
     context_object_name = 'DetailPost'
+
     
 class Delet_PostView(LoginRequiredMixin, DeleteView):
     model = SetupPosts
     success_url = reverse_lazy('main:main_page')
 
+class Post_likesView(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+        posts = get_object_or_404(models.SetupPosts, pk=pk)
+
+        if request.user in posts.likes.all():
+            posts.likes.remove(request.user)
+        else:
+            posts.likes.add(request.user)
+
+        return redirect('main:detail_post', pk=pk)

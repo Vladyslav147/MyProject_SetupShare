@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, TemplateView
 from users.forms import UserRegisterForm, LoginForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout
+from main.models import SetupPosts
 # Create your views here.
 
 class PageLoginView(LoginView):
@@ -25,5 +27,30 @@ class PageRegistersView(CreateView):
         login(self.request, user)
         return redirect(reverse_lazy('main:main_page'))
     
+class UserProfileView(LoginRequiredMixin, ListView):
+    template_name = 'users/user_profile.html'
+    model = SetupPosts
+    context_object_name = 'post'
+
+    def get_queryset(self):
+        sort = self.request.GET.get('status')
+        if sort == 'my':
+            return SetupPosts.objects.filter(creator_id=self.kwargs['pk']).order_by('-time')
+        elif sort == 'like':
+            return SetupPosts.objects.filter(likes=self.kwargs['pk'])
+
+    
+    
+
+    
+
+
+
+
+
+
+
+
+
     
     
