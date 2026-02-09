@@ -46,7 +46,7 @@
                 <div class="assembly-card">
                     <h2 class="assembly-title">История сборки</h2>
                     <p class="assembly-text">
-                        {{DetailPost.story_setup|linebreaksbr}} <!-- linebreaksbr - не игнорирует \n в тексте -->
+                        {{DetailPost.story_setup|linebreaksbr|default:"История не написана"}} <!-- linebreaksbr - не игнорирует \n в тексте -->
                     </p>
                 </div>
             </div>
@@ -66,7 +66,7 @@
 
                     <!-- Твой ли это пост что бы ты мог удалить или редактировать -->
                     {% if DetailPost.creator == request.user %}
-                        <button class="btn btn-warning fw-bold py-3" style="border-radius: 14px;">РЕДАКТИРОВАТЬ</button>
+                        <a href="{% url 'main:edit_post' DetailPost.pk %}" class="btn btn-warning fw-bold py-3" style="border-radius: 14px;">РЕДАКТИРОВАТЬ</a>
                         
                         <form action="{% url 'main:delet_post' DetailPost.pk %}" class="w-100">
                             {% csrf_token %}
@@ -87,7 +87,7 @@
 
                     <div class="personal-note-simple">
                         <span class="note-label-simple">Личное дополнение</span>
-                        <p class="note-text-simple">{{DetailPost.comment}}</p>
+                        <p class="note-text-simple">{{DetailPost.comment|default:"Нет дополнений"}}</p>
                     </div>
 
                     <div class="post-author-footer">

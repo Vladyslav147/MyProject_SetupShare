@@ -136,3 +136,27 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
 }
+/* === УБИРАЕМ БЕЛУЮ КНОПКУ И ТЕКСТ "ФАЙЛ НЕ ВЫБРАН" В ГАЛЕРЕЕ === */
+
+/* Делаем текст "Файл не выбран" невидимым, но сам инпут остается */
+.row.g-3 input[type="file"] {
+    color: transparent; /* Текст становится прозрачным */
+}
+
+/* Стилизуем саму кнопку "Выберите файл" (дефолтную) */
+.row.g-3 input[type="file"]::file-selector-button {
+    background-color: rgba(255, 255, 255, 0.05); /* Полупрозрачный темный фон */
+    color: #999;                                 /* Серый цвет текста */
+    border: 1px solid rgba(255, 255, 255, 0.1);  /* Тонкая рамка */
+    border-radius: 8px;                          /* Закругленные углы */
+    padding: 4px 10px;                           /* Внутренние отступы */
+    cursor: pointer;                             /* Курсор-палец при наведении */
+    transition: 0.3s;                            /* Плавность при наведении */
+}
+
+/* Эффект при наведении на кнопку */
+.row.g-3 input[type="file"]::file-selector-button:hover {
+    background-color: var(--accent-blue);        /* Твой синий акцент */
+    border-color: var(--accent-blue);
+    color: #fff;                                 /* Текст становится белым */
+}

@@ -1,12 +1,38 @@
 {% extends "base.html" %}
+{% load static %}
+{% block theme %}dark{% endblock %}
+{% block extra_css %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'common.css'%}">
+{% endblock extra_css %}
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <p>Ты точно хочешь удалить этот мощный сетап?</p>
-    <button type="submit" class="btn btn-danger">ДА, УДАЛИТЬ</button>
-    <a href="{% url 'main:main_page' %}">ОТМЕНА</a>
-</form>
+<div class="container mt-5 ">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark text-white border-danger shadow-lg rounded-4">
+                <div class="card-body p-5 text-center">
+                    <i class="bi bi-exclamation-triangle-fill text-danger display-1 mb-4"></i>
+                    <h2 class="card-title fw-bold">УДАЛЕНИЕ</h2>
+                    <p class="card-text text-secondary mb-4">
+                        Ты точно хочешь удалить этот сетап?  <b style='color: #b6b5b5;'>{{ object.title }}</b>  Вернуть его будет невозможно.
+                    </p>
+                    
+                    <form method="post" class="d-grid gap-3">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-lg fw-bold rounded-pill">
+                            ПОДТВЕРДИТЬ УДАЛЕНИЕ
+                        </button>
+                        <a href="{% url 'main:main_page' %}" class="btn btn-outline-secondary rounded-pill">
+                            ОТМЕНА
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 
 

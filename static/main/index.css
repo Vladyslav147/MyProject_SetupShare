@@ -131,3 +131,39 @@
 a {
     text-decoration: none;
 }
+
+
+
+/* Основной стиль кнопок пагинации */
+.setup-pagination .page-link {
+    background-color: #121212; /* Темный фон как у карточек */
+    color: #ffffff;
+    border: 1px solid #2a2a2a;
+    margin: 0 4px;
+    border-radius: 10px !important; /* Закругляем углы */
+    transition: all 0.3s ease;
+    padding: 12px 20px; /* Делаем их крупнее */
+}
+
+/* Эффект при наведении — используем твой голубой акцент */
+.setup-pagination .page-link:hover {
+    background-color: #1a1a1a;
+    color: #00d2ff; /* Цвет кнопки АДМИНКА */
+    border-color: #00d2ff;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); /* Эффект неона */
+}
+
+/* Активная страница — стиль как у кнопки "Все посты" */
+.setup-pagination .page-item.active .page-link {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border-color: #ffffff !important;
+    font-weight: bold;
+}
+
+/* Стили для отключенных кнопок (Previous/Next на краях) */
+.setup-pagination .page-item.disabled .page-link {
+    background-color: #0b0b0b;
+    color: #444;
+    border-color: #222;
+}

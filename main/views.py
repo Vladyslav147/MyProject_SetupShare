@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView
 from main import models
-from django.views.generic import CreateView, DeleteView, DetailView, View
+from django.views.generic import CreateView, DeleteView, DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import CreateNewPostForm
+from .forms import CreateNewPostForm, UpdatePostForm
 from .models import SetupPosts
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db.models import Count
+from django.core.paginator import Paginator
 # Create your views here.
 
 class MainPagePostViews(ListView):
@@ -14,6 +15,7 @@ class MainPagePostViews(ListView):
     model = SetupPosts
     context_object_name = 'posts'
     ordering = ['-time'] # Сортировка по времени публикации поста, time это поле из модели
+    paginate_by = 12
 
     def get_queryset(self):
         sort = self.request.GET.get('status')
@@ -35,6 +37,7 @@ class Add_NewPostView(LoginRequiredMixin, CreateView):
         form.instance.creator = self.request.user
         return super().form_valid(form)
     
+
 class Detail_PostView(LoginRequiredMixin, DetailView):
     template_name  = 'main/detail_post.html'
     model = SetupPosts
@@ -45,8 +48,8 @@ class Delet_PostView(LoginRequiredMixin, DeleteView):
     model = SetupPosts
     success_url = reverse_lazy('main:main_page')
 
-class Post_likesView(LoginRequiredMixin, View):
 
+class Post_likesView(LoginRequiredMixin, View):
     def post(self, request, pk):
         posts = get_object_or_404(models.SetupPosts, pk=pk)
 
@@ -56,3 +59,15 @@ class Post_likesView(LoginRequiredMixin, View):
             posts.likes.add(request.user)
 
         return redirect('main:detail_post', pk=pk)
+    
+
+class UpdatePostView(LoginRequiredMixin, UpdateView):
+    model = SetupPosts
+    form_class = UpdatePostForm
+    template_name = 'main/edit_post.html'
+    
+    def get_success_url(self):
+        return reverse('main:detail_post', kwargs={'pk': self.object.pk})
+
+    
+

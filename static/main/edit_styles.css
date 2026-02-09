@@ -1,0 +1,119 @@
+/* === 1. ПЕРЕМЕННЫЕ И ОСНОВА (SOLID DARK) === */
+:root {
+    --bg-main: #050505;
+    /* ИЗМЕНЕНО: Фон карточки стал плотнее для лучшей читаемости (0.95) */
+    --bg-card: rgba(10, 10, 10, 0.95); 
+    --accent-blue: #3b82f6;
+    --text-main: #e2e8f0;
+    --border-glass: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* ИЗМЕНЕНО: Сильное притемнение фона (0.9), чтобы контент был в фокусе */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9); 
+    z-index: -1;
+}
+
+.container { 
+    max-width: 1400px; /* Размер специально для Aliosza */
+}
+
+
+.user-name:hover {
+    color: var(--accent-blue);
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* === 3. СТЕКЛЯННАЯ КАРТОЧКА ФОРМЫ === */
+.form-card {
+    background-color: var(--bg-card) !important;
+    backdrop-filter: blur(25px); /* Усиленное размытие */
+    border: 1px solid var(--border-glass) !important;
+    border-radius: 28px;
+    padding: 50px;
+    /* ИЗМЕНЕНО: Глубокая тень для отделения от фона */
+    box-shadow: 0 30px 100px rgba(0,0,0,1);
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+}
+
+/* === 4. ПОЛЯ ВВОДА === */
+.form-label {
+    color: #94a3b8;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    margin-top: 15px;
+}
+
+.form-control {
+    background-color: rgba(0, 0, 0, 0.8) !important; /* Еще темнее */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff !important;
+    padding: 14px 18px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background-color: rgba(0, 0, 0, 0.95) !important;
+    color: #fff !important;
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.form-control::placeholder {
+    color: #333; /* Еще более тусклый placeholder для чистоты */
+}
+
+/* ТЕГИ */
+.form-check-input:checked {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+}
+
+/* === 5. КНОПКА ОТМЕНА === */
+.btn-cancel-premium {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 14px 60px; 
+    min-width: 200px;            
+    display: inline-block;
+    border-radius: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Приглушили рамку в тон */
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-cancel-premium:hover {
+    color: #ffffff;
+    border-color: #ef4444; 
+    background: rgba(239, 68, 68, 0.2);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+    transform: translateY(-3px) scale(1.02);
+}

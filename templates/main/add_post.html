@@ -118,4 +118,33 @@
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Обработка главного фото (как мы делали раньше)
+    const mainInput = document.getElementById('main_photo_input');
+    if (mainInput) {
+        mainInput.addEventListener('change', function() {
+            const area = this.closest('.upload-area');
+            if (this.files[0]) {
+                area.querySelector('.fw-bold').textContent = "Готово!";
+                area.querySelector('.small').textContent = this.files[0].name;
+                area.querySelector('i').className = 'bi bi-check-circle-fill text-primary';
+            }
+        });
+    }
+
+    // 2. Обработка галереи (маленькие кнопки)
+    const galleryInputs = document.querySelectorAll('.gallery-input');
+    galleryInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.files[0]) {
+                // Если файл выбран, можно изменить стиль кнопки или текст рядом
+                console.log("Файл выбран в галерее: " + this.files[0].name);
+                // Тут можно добавить смену цвета рамки или иконки
+                this.style.borderColor = '#3b82f6';
+            }
+        });
+    });
+});
+</script>
 {% endblock content %}

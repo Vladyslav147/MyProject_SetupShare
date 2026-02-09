@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="en" data-bs-theme="{% block theme %}light{% endblock %}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +21,10 @@
                 </span>
 
                 <a href="{% url 'users:profile' pk=request.user.pk %}" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold me-2">ПРОФИЛЬ</a>
+                
+                {% if user.is_staff %}
+                    <a href="{% url 'admin:index'%}" class="btn btn-outline-info btn-sm rounded-pill px-4 fw-bold me-2">АДМИНКА</a>
+                {% endif %}
 
                 <form action="{% url 'users:logout'%}" method="post" style="display: inline;">
                     {% csrf_token %}

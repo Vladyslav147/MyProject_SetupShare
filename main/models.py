@@ -40,7 +40,7 @@ class SetupPosts(models.Model):
         for name in field_names:
             label = self._meta.get_field(name)
             value = getattr(self, name)
-
+            
             specs.append({
                 'label': label.verbose_name,
                 'value': value    
