@@ -54,3 +54,18 @@ class SetupPosts(models.Model):
     def get_absolute_url(self):
         return reverse("main:detail_post", kwargs={"pk": self.pk})
     
+    @property
+    def get_comments_count(self):
+        return self.comments.count()
+    
+class CommentPost(models.Model):
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(SetupPosts, on_delete=models.CASCADE, related_name='comments')
+    created_at = models.DateTimeField(auto_now_add=True)
+    text = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.text

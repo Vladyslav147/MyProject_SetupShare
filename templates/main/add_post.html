@@ -120,7 +120,7 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Обработка главного фото (как мы делали раньше)
+    // 1. Обработка главного фото
     const mainInput = document.getElementById('main_photo_input');
     if (mainInput) {
         mainInput.addEventListener('change', function() {
@@ -133,14 +133,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 2. Обработка галереи (маленькие кнопки)
+    // 2. Обработка галереи
     const galleryInputs = document.querySelectorAll('.gallery-input');
     galleryInputs.forEach(input => {
         input.addEventListener('change', function() {
             if (this.files[0]) {
-                // Если файл выбран, можно изменить стиль кнопки или текст рядом
                 console.log("Файл выбран в галерее: " + this.files[0].name);
-                // Тут можно добавить смену цвета рамки или иконки
                 this.style.borderColor = '#3b82f6';
             }
         });

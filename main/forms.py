@@ -1,5 +1,5 @@
 from django import forms
-from .models import Tag, SetupPosts
+from .models import Tag, SetupPosts,CommentPost
 
 class CreateNewPostForm(forms.ModelForm):
     tegs = forms.ModelMultipleChoiceField(queryset=Tag.objects.all(), widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}))
@@ -8,6 +8,11 @@ class CreateNewPostForm(forms.ModelForm):
             fields= ['title', 'main_photo', 'more_photo1', 'more_photo2', 'more_photo3', 'cpu', 'gpu', 'ram', 'ssd', 'monitor', 'ps', 'comment', 'story_setup', 'tegs']
 
             widgets = {
+                  'more_photo1': forms.FileInput(attrs={'class': 'gallery-input'}),
+                  'more_photo2': forms.FileInput(attrs={'class': 'gallery-input'}),
+                  'more_photo3': forms.FileInput(attrs={'class': 'gallery-input'}),
+
+
                   'main_photo': forms.FileInput(attrs={'id': 'main_photo_input'}),
                   'title': forms.TextInput(attrs={'placeholder': 'Введите имя поста'}),
                   'cpu': forms.TextInput(attrs={'placeholder': 'Intel i5 10400f'}),
@@ -36,6 +41,17 @@ class UpdatePostForm(forms.ModelForm):
                   'ps': forms.TextInput(attrs={'class': 'form-control'}),
                   'comment': forms.TextInput(attrs={'class': 'form-control'}),
                   'story_setup': forms.Textarea(attrs={'class': 'form-control'}),
+            }
+
+class CommentPostForm(forms.ModelForm):
+      class Meta:
+            model = CommentPost
+            fields = ['text',]
+            labels = {
+                  'text': ''
+            }
+            widgets = {
+                  'text': forms.Textarea(attrs={'rows': '2', 'placeholder': 'Оставьте свой отзыв о сетапе...'})
             }
 
           

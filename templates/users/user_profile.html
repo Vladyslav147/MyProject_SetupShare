@@ -55,7 +55,7 @@
                             <div class='tags-container'>
                                 <!-- цыкл тегов поста  -->
                                 {% for tag in posts.tegs.all %}
-                                    <span class="badge-custom">{{ tag.name }}</span>
+                                    <span class="badge-custom">{{ tag.name|slice:":3" }}</span>
                                 {% endfor %}
                             </div>
                             <span class="post-time">{{ posts.time|timesince }} назад</span>

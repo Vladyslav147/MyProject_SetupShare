@@ -3,7 +3,7 @@ from django.views.generic import ListView
 from main import models
 from django.views.generic import CreateView, DeleteView, DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import CreateNewPostForm, UpdatePostForm
+from .forms import CreateNewPostForm, UpdatePostForm, CommentPostForm
 from .models import SetupPosts
 from django.urls import reverse_lazy, reverse
 from django.db.models import Count
@@ -14,7 +14,7 @@ class MainPagePostViews(ListView):
     template_name = 'main/index.html'
     model = SetupPosts
     context_object_name = 'posts'
-    ordering = ['-time'] # Сортировка по времени публикации поста, time это поле из модели
+    ordering = ['-time']
     paginate_by = 12
 
     def get_queryset(self):
@@ -42,8 +42,28 @@ class Detail_PostView(LoginRequiredMixin, DetailView):
     template_name  = 'main/detail_post.html'
     model = SetupPosts
     context_object_name = 'DetailPost'
-
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["input_comment"] = CommentPostForm()
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('users:login')
+        
+        comment_form = CommentPostForm(request.POST)
+        post = self.get_object()
+
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.creator = request.user
+            comment.post = post
+            comment.save()
+            return redirect('main:detail_post', pk=post.pk)
+        return render('main:detail_post', pk=post.pk)
+    
+
 class Delet_PostView(LoginRequiredMixin, DeleteView):
     model = SetupPosts
     success_url = reverse_lazy('main:main_page')

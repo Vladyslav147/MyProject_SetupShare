@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Tag, SetupPosts
+from .models import Tag, SetupPosts, CommentPost
 from users.models import CustomRegisterUser
 
 
@@ -30,3 +30,6 @@ class SetupPostsAdmin(admin.ModelAdmin):
         return "Нет фото"
 
     get_html_photo.short_description = "Превью"
+
+admin.site.register(CommentPost)
+ 

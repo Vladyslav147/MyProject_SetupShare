@@ -26,21 +26,26 @@
                 <div class="row g-3 mb-5">
                     {% if DetailPost.more_photo1 %}
                     <div class="col-4">
-                        <img src="{{ DetailPost.more_photo1.url }}" class="gallery-img">
+                        <img src="{{ DetailPost.more_photo1.url }}" class="gallery-img" onclick="expandImage(this.src)" style="cursor: pointer;">
                     </div>
                     {% endif %}
 
                     {% if DetailPost.more_photo2 %}
                     <div class="col-4">
-                        <img src="{{DetailPost.more_photo2.url }}" class="gallery-img" alt="ПК внутри">
+                        <img src="{{DetailPost.more_photo2.url }}" class="gallery-img" alt="ПК внутри" onclick="expandImage(this.src)" style="cursor: pointer;">
                     </div>
                     {% endif %}
 
                     {% if DetailPost.more_photo3 %}
                     <div class="col-4">
-                        <img src="{{DetailPost.more_photo3.url}}" class="gallery-img" alt="Мышь">
+                        <img src="{{DetailPost.more_photo3.url}}" class="gallery-img" alt="Мышь" onclick="expandImage(this.src)" style="cursor: pointer;">
                     </div>
                     {% endif %}
+
+                    <div id="image-popup" class="popup-overlay" onclick="closeImage()">
+                        <span class="popup-close">&times;</span>
+                        <img id="popup-img" class="popup-content">
+                    </div>
                 </div>
 
                 <div class="assembly-card">
@@ -49,8 +54,41 @@
                         {{DetailPost.story_setup|linebreaksbr|default:"История не написана"}} <!-- linebreaksbr - не игнорирует \n в тексте -->
                     </p>
                 </div>
+
+
+                <!-- Комментарии-->
+                <div class="comments-section">
+                    <h4 class="mb-4 fw-bold text-white">Комментарии ({{DetailPost.get_comments_count}})</h4>
+
+                    <form method='post'>
+                        {% csrf_token %}
+                        <div class="comment-input-area">
+                            {{input_comment}}
+                            <div class="text-end mt-2">
+                                <button class="btn btn-primary btn-sm px-4 fw-bold" style="border-radius: 10px;">ОТПРАВИТЬ</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% for comment in DetailPost.comments.all %}
+                        <div class="comment-list">
+                            <div class="comment-card">
+                                <div class="comment-header">
+                                    <div class="comment-author">
+                                        <div class="avatar" style="width: 30px; height: 30px; font-size: 0.8rem; background: #8623bb;">{{comment.creator.username|slice:":1"}}</div>
+                                        <span>{{comment.creator}}</span>
+                                    </div>
+                                    <span class="comment-time">{{comment.created_at|timesince}}</span>
+                                </div>
+                                <p class="comment-text">{{ comment.text }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
 
+
+            
             <div class="col-lg-4">
                 <div class="d-grid gap-3 mb-4">
 
@@ -101,5 +139,18 @@
             </div> 
         </div>
     </div>
+<script>
+function expandImage(src) {
+    const popup = document.getElementById('image-popup');
+    const img = document.getElementById('popup-img');
+    img.src = src; // Устанавливаем адрес картинки
+    popup.style.display = 'block'; // Показываем блок
+    document.body.style.overflow = 'hidden'; // Запрещаем прокрутку сайта под картинкой
+}
 
+function closeImage() {
+    document.getElementById('image-popup').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Возвращаем прокрутку
+}
+</script>
 {% endblock content %}

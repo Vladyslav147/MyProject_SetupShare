@@ -184,3 +184,132 @@
     font-family: 'Inter', sans-serif;
     transition: all 0.3s ease;
 }
+
+
+
+
+/* === КОММЕНТАРИИ === */
+.comments-section { 
+    margin-top: 60px; 
+    padding-top: 40px; 
+    border-top: 1px solid var(--border-color); 
+}
+
+/* Карточка отдельного комментария */
+.comment-card { 
+    background: var(--bg-card); 
+    border: 1px solid var(--border-color); 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin-bottom: 20px; 
+}
+
+.comment-header { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 10px; 
+}
+
+.comment-author { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    font-weight: 700; 
+    color: #fff; 
+}
+
+.comment-time { 
+    color: var(--text-secondary); 
+    font-size: 0.85rem; 
+}
+
+.comment-text { 
+    color: #d1d5db; 
+    line-height: 1.6; 
+    margin: 0; 
+}
+
+/* Зона ввода нового комментария */
+.comment-input-area { 
+    background: var(--bg-card); 
+    border: 1px solid #333; 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin-bottom: 30px; 
+}
+
+.comment-input-area textarea { 
+    background: transparent; 
+    border: none; 
+    color: #fff; 
+    width: 100%; 
+    outline: none; 
+    resize: none; 
+}
+
+/* УНИВЕРСАЛЬНЫЙ АВАТАР */
+.avatar {
+    width: 40px;
+    height: 40px;
+    background-color: var(--accent-blue);
+    color: white;
+    border-radius: 50%; /* Делает круглым */
+    display: flex; /* Включает гибкий контейнер */
+    align-items: center; /* Центрует букву по вертикали */
+    justify-content: center; /* Центрует букву по горизонтали */
+    font-weight: 900;
+    font-size: 1.1rem;
+    border: 2px solid #1a1a1a;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+/* Если нужно сделать аватарку поменьше (например, в комментах) */
+.avatar.small {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+}
+
+
+/* Затемненный фон на весь экран */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Чуть светлее, т.к. есть блюр */
+    backdrop-filter: blur(8px); /* Тот самый эффект размытия сайта сзади */
+    z-index: 2000;
+    cursor: zoom-out;
+}
+
+/* Сама картинка по центру */
+.popup-content {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* ПРИНУДИТЕЛЬНЫЙ РАЗМЕР */
+    /* Выбираем, что будет приоритетом: ширина или высота */
+    width: 50vw;  /* 90% от ширины экрана */
+    height: 50vh; /* 90% от высоты экрана */
+    
+    /* Магия: картинка растянется, но сохранит пропорции и не исказится */
+    object-fit: contain; 
+    
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.popup-close {
+    position: absolute;
+    top: 20px; right: 30px;
+    color: white; font-size: 40px;
+    font-weight: bold;
+}
