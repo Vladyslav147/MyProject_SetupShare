@@ -1,3 +1,200 @@
+
+
+/* === ПЕРЕМЕННЫЕ === */
+:root {
+    --bg-main: #050505;
+    --bg-card: #0d0d0d;
+    --accent-blue: #3b82f6;
+    --text-main: #e2e8f0;
+    --border-color: #1f1f1f;
+}
+
+/* === ГЛАВНЫЙ БЛОК ПРОФИЛЯ === */
+.profile-header {
+    position: relative;
+    border-radius: 40px;
+    overflow: hidden; /* Чтобы размытый фон не вылезал за границы */
+    padding: 70px 30px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    margin-bottom: 50px;
+    background-color: #000; /* Цвет-заглушка */
+}
+
+/* ФОНОВОЕ ИЗОБРАЖЕНИЕ (BLUR + DARK) */
+.profile-header::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    
+    /* Теперь берем путь из переменной, которую определим в HTML */
+    background-image: var(--bg-image);
+    
+    background-size: cover;
+    background-position: center;
+    filter: blur(15px) brightness(0.35); 
+    z-index: 1;
+    transform: scale(1.1);
+}
+
+/* Контент поверх фона */
+.profile-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Кнопка изменения фона в углу */
+.btn-edit-cover {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.7rem;
+    transition: 0.3s;
+}
+
+.btn-edit-cover:hover {
+    background: var(--accent-blue);
+    transform: translateY(-2px);
+}
+
+/* === АВАТАР === */
+.avatar-container {
+    position: relative;
+    width: 150px;
+    margin: 0 auto;
+}
+
+.avatar-large {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-blue), #8b5cf6);
+    color: white;
+    font-size: 4rem;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border: 6px solid rgba(13, 13, 13, 0.7);
+    font-weight: 900;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.btn-edit-avatar {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: var(--accent-blue);
+    border: 4px solid #0d0d0d;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.btn-edit-avatar:hover {
+    transform: scale(1.1);
+}
+
+/* === ТЕКСТОВАЯ ИНФОРМАЦИЯ === */
+.profile-name { 
+    font-size: 3rem; 
+    font-weight: 900; 
+    color: #fff; 
+    letter-spacing: -1.5px;
+    margin-top: 20px;
+}
+
+.profile-tag {
+    color: var(--accent-blue);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.profile-bio {
+    color: #e2e8f0;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center; /* ГЛАВНОЕ: центрируем строки текста */
+}
+
+/* === СТАТИСТИКА И КНОПКИ === */
+.profile-stats { 
+    display: flex; 
+    justify-content: center; 
+    gap: 60px; 
+    margin: 30px 0; 
+}
+
+.stat-number { 
+    display: block; 
+    font-size: 1.8rem; 
+    font-weight: 900; 
+    color: #ffffff; 
+}
+
+.stat-label { 
+    color: #64748b; 
+    font-size: 0.7rem; 
+    font-weight: 800; 
+    text-transform: uppercase; 
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-add-post {
+    background: #10b981;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-edit-profile {
+    text-decoration: none; 
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 14px;
+    font-weight: 800;
+    transition: 0.3s;
+}
+
+.btn-edit-profile:hover {
+    background: #fff;
+    color: #000;
+}
+
+.social-icon {
+    color: #94a3b8;
+    font-size: 1.6rem;
+    margin: 0 10px;
+    transition: 0.3s;
+}
+
+.social-icon:hover { color: var(--accent-blue); }
 /* === ХЕДЕР ПРОФИЛЯ === */
 .profile-header {
     background-color: var(--bg-card);
@@ -64,6 +261,7 @@
 }
 
 .profile-nav-btn {
+    text-decoration: none;
     background: transparent;
     border: none;
     color: #666;
@@ -142,6 +340,7 @@
 
 /* Кнопка "Подробнее" в профиле */
 .btn-details-profile {
+    text-decoration: none;
     background: #ffffff; 
     color: #000000;
     padding: 10px 24px; 
@@ -158,15 +357,199 @@
     color: #fff; 
 }
 
-.post-time {
-    color: #444; /* Приглушенный цвет для баланса */
-    font-size: 0.65rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
+.profile-bio-container {
+    max-width: 600px;
+    margin-left: auto;  /* Центрируем сам блок по горизонтали */
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-.profile-nav-btn {
-    text-decoration: none; /* Убирает подчеркивание */
-    display: inline-block; /* Чтобы отступы работали корректно */
+
+/* --- Стилизация модального окна обновления аватара --- */
+
+/* 1. Контейнер модального окна (уже есть, но освежим) */
+.avatar-modal-content {
+    background: rgba(20, 20, 20, 0.95); /* Темный, почти непрозрачный фон */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Тонкая светлая рамка */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); /* Глубокая тень */
+    backdrop-filter: blur(10px); /* Эффект матового стекла */
+    padding: 40px;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 420px; /* Оптимальная ширина */
+    text-align: center;
+    color: #fff;
+    position: relative; /* Для позиционирования кнопки закрытия */
+}
+
+/* 2. Заголовок и кнопка закрытия */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.modal-header h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* Кнопка-крестик */
+.close-btn {
+    font-size: 2rem;
+    line-height: 1;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: absolute; /* Позиционируем в углу */
+    top: 20px;
+    right: 25px;
+}
+
+.close-btn:hover {
+    color: #fff; /* Белый цвет при наведении */
+}
+
+/* 3. Область загрузки файла */
+.upload-container {
+    margin-bottom: 30px;
+}
+
+/* Прячем стандартный инпут */
+#file-upload {
+    display: none;
+}
+
+/* Кастомная кнопка выбора файла (стилизуем label) */
+.custom-file-upload {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 32px;
+    border: 2px dashed rgba(255, 255, 255, 0.3); /* Пунктирная рамка */
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #ccc;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    width: 100%; /* На всю ширину */
+    box-sizing: border-box;
+}
+
+/* Иконка внутри кнопки */
+.custom-file-upload i {
+    font-size: 1.3rem;
+}
+
+/* Эффект при наведении на кнопку выбора */
+.custom-file-upload:hover {
+    border-color: var(--accent-blue, #3b82f6); /* Используем твой акцентный цвет */
+    color: #fff;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* Текст с именем файла */
+.file-name-hint {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* 4. Футер с кнопкой сохранения */
+.modal-footer {
+    display: flex;
+    justify-content: center;
+}
+
+/* Кнопка "СОХРАНИТЬ" */
+.btn-save {
+    background: #fff; /* Белый фон */
+    color: #000; /* Черный текст */
+    border: none;
+    padding: 14px 40px;
+    border-radius: 12px;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Эффект при наведении и нажатии на кнопку сохранения */
+.btn-save:hover {
+    transform: translateY(-3px); /* Небольшой подъем */
+    box-shadow: 0 10px 20px -10px rgba(255, 255, 255, 0.5); /* Светящаяся тень */
+}
+
+.btn-save:active {
+    transform: translateY(-1px); /* Эффект нажатия */
+}
+
+/* 1. Оверлей (фон, который закрывает весь сайт) */
+.avatar-modal-overlay {
+    position: fixed;      /* Фиксируем относительно окна браузера */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Глубокое затемнение */
+    backdrop-filter: blur(12px);    /* Твой фирменный блюр */
+    
+    /* ГЛАВНОЕ ДЛЯ ЦЕНТРИРОВАНИЯ: */
+    display: none;        /* Скрыто, пока не нажмем кнопку */
+    justify-content: center; /* Центр по горизонтали */
+    align-items: center;     /* Центр по вертикали */
+    
+    z-index: 9999;        /* Максимальный приоритет, чтобы быть поверх навигации и постов */
+}
+
+/* 2. Само окно с контентом */
+.avatar-modal-content {
+    background: #0d0d0d;   /* В цвет твоих карточек */
+    padding: 40px;
+    border-radius: 30px;
+    border: 1px solid #1f1f1f;
+    width: 90%;
+    max-width: 450px;      /* Ограничиваем ширину, чтобы не было огромным */
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,1); /* Тень для объема */
+    text-align: center;
+}
+
+/* Кнопка "Сохранить" внутри модалки */
+.btn-save {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+
+.avatar-large {
+    /* Твои текущие стили: width, height, border-radius и т.д. */
+    overflow: hidden; /* Обязательно, чтобы картинка не вылезала за границы круга */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Это "магия", которая правильно обрезает фото под размер круга */
+    display: block;
 }

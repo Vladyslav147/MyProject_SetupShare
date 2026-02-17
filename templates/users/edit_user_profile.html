@@ -1,0 +1,95 @@
+{% extends "base_simple.html" %}
+{% load static %}
+
+
+    {% block title %}Изменение профиля{% endblock title %}
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static 'users/edit_user_profile.css'%}">
+        
+    {% endblock extra_css %}
+
+
+{% block content %}
+    <div class="bg-blur-orb orb-1"></div>
+    <div class="bg-blur-orb orb-2"></div>
+
+    <main class="container">
+        <div class="glass-card">
+            <a href="{% url 'users:profile' pk=request.user.pk%}" class="back-btn">← НАЗАД В ПРОФИЛЬ</a>
+            <h2>Настройки профиля</h2>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <div class="profile-banner-edit">
+                        <label class="field-label">Фон профиля (Обложка)</label>
+                        <div class="banner-upload">
+                            {% if all_likes == 10 %}
+                                {{form.background_image}}
+                                <label for="bg-input" class="banner-label"><span class="icon">🖼️</span><span>ВЫБРАТЬ НОВУЮ ОБЛОЖКУ</span></label>
+                            {% else %}
+                                <label for="bg-input" class="banner-label">
+                                    <span class="icon">❌</span>
+                                    <span style='color: red; font-size: 15px;'>Для того что бы установить фото обложку наберите "10-лайков" на профиле </span>
+                                </label>
+                            {% endif %}
+                        </div>
+                    </div>
+ 
+
+                <div class="row">
+                    <div class="input-wrap">
+                        <label class="field-label">Имя пользователя</label>
+                        {{form.first_name}}
+                    </div>
+                    <div class="input-wrap">
+                        <label class="field-label">Профессия</label>
+                        {{form.profission}}
+                    </div>
+                </div>
+
+                <div class="input-wrap">
+                    <label class="field-label">Биография</label>
+                    {{form.bio}}
+                </div>
+
+                <div class="social-header"><span>СОЦИАЛЬНЫЕ СЕТИ ПО ЖЕЛАНИЮ</span></div>
+
+                <div class="row social-row">
+                    <div class="input-wrap">
+                        <label class="field-label">Instagram (URL)</label>
+                        {{form.Instagram_url}}
+                    </div>
+                    <div class="input-wrap">
+                        <label class="field-label">GitHub (URL)</label>
+                        {{form.github_url}}
+                    </div>
+                    <div class="input-wrap">
+                        <label class="field-label">Discord сервер (url)</label>
+                        {{form.discord_url}}
+                    </div>
+                    <div class="input-wrap">
+                        <label class="field-label">Telegram (url)</label>
+                        {{form.telegram_url}}
+                    </div>
+                    <div class="input-wrap">
+                        <label class="field-label"> Steam (url)</label>
+                        {{form.steam_url}}
+                    </div>
+                    <div class="input-wrap">
+                        <label class="field-label"> Spotify-Плейлист (url)</label>
+                        {{form.spotify_url}}
+                    </div>
+                    <div class="input-wrap">
+                        <label class="field-label"> TikTok (url)</label>
+                        {{form.tiktok_url}}
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn-save">СОХРАНИТЬ ИЗМЕНЕНИЯ</button>
+                    <button type="button" class="btn-cancel">ОТМЕНА</button>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock content %}

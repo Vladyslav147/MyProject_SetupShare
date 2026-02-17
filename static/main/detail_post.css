@@ -103,8 +103,8 @@
     align-items: center;
 }
 .post-author-footer .avatar {
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 60px;
     background-color: var(--accent-blue);
     color: white;
     border-radius: 50%;
@@ -312,4 +312,49 @@
     top: 20px; right: 30px;
     color: white; font-size: 40px;
     font-weight: bold;
+}
+
+/* --- Стили для блока автора поста --- */
+
+/* Основной контейнер-кружок */
+.avatar {         /* Квадрат, чтобы стать кругом */
+    border-radius: 50%;    /* Делает из квадрата круг */
+    overflow: hidden;      /* Обрезает всё, что вылезает за границы круга */
+    
+    /* Центрирование содержимого (важно для буквы) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Небольшая рамка и тень для объема на темном фоне */
+    border: 3px solid #2a2a2a; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #2a2a2a; /* Цвет фона на случай, если картинка не прогрузится */
+    
+    flex-shrink: 0; /* Чтобы аватар не сплющивался, если имя длинное */
+}
+
+/* Стили для реальной картинки (если она есть) */
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ГЛАВНОЕ: обрезает фото, заполняя круг без искажений */
+    display: block;    /* Убирает микро-отступы снизу в некоторых браузерах */
+}
+
+/* Стили для заглушки с буквой (если картинки нет) */
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* Стильный градиент для заглушки, чтобы не было скучно */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    color: #ffffff;       /* Белый цвет буквы */
+    font-weight: 700;     /* Жирный шрифт */
+    font-size: 1.2rem;    /* Размер буквы */
+    user-select: none;    /* Чтобы букву нельзя было выделить мышкой */
 }

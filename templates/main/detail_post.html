@@ -129,7 +129,15 @@
                     </div>
 
                     <div class="post-author-footer">
-                        <div class="avatar me-3">{{ DetailPost.creator.username|slice:'1'}}</div>
+                        <div class="avatar me-3">
+                            {% if DetailPost.creator.biousers.avatar %}
+                                <img src="{{ DetailPost.creator.biousers.avatar.url }}" alt="Avatar" class="avatar-img">
+                            {% else %}
+                                <div class="avatar-placeholder">
+                                    {{ DetailPost.creator.username|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                        </div>
                         <div>
                             <div class="fw-bold text-white">{{ DetailPost.creator.username}}</div>
                             <div class="small text-secondary">{{ DetailPost.time|timesince}} назад</div>
@@ -139,6 +147,7 @@
             </div> 
         </div>
     </div>
+    
 <script>
 function expandImage(src) {
     const popup = document.getElementById('image-popup');
@@ -147,7 +156,6 @@ function expandImage(src) {
     popup.style.display = 'block'; // Показываем блок
     document.body.style.overflow = 'hidden'; // Запрещаем прокрутку сайта под картинкой
 }
-
 function closeImage() {
     document.getElementById('image-popup').style.display = 'none';
     document.body.style.overflow = 'auto'; // Возвращаем прокрутку

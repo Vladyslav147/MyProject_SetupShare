@@ -1,5 +1,5 @@
 from django import forms
-from users.models import CustomRegisterUser
+from users.models import CustomRegisterUser, BioUsers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 class LoginForm(AuthenticationForm):
@@ -27,3 +27,13 @@ class UserRegisterForm(UserCreationForm):
         if CustomRegisterUser.objects.filter(email=email).exists():              # 2. Идем в базу данных и спрашиваем: "Уже есть такой?"
             raise forms.ValidationError("Пользователь с такой почтой уже есть!")# 3. Если ответ "Да", выбрасываем (raise) красную карточку
         return email                                                            # 4. Если всё ок, ОБЯЗАТЕЛЬНО возвращаем этот email обратно
+    
+class UpdateUserProfileForm(forms.ModelForm):
+    class Meta:
+        model = BioUsers
+        fields = ['background_image', 'first_name', 'profission', 'bio', 'Instagram_url', 'github_url', 'discord_url', 'steam_url', 'telegram_url', 'spotify_url', 'tiktok_url']
+
+class LoadingUserAvatarForm(forms.ModelForm):
+    class Meta:
+        model = BioUsers
+        fields = ['avatar']
