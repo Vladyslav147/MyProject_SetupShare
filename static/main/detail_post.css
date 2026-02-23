@@ -358,3 +358,56 @@
     font-size: 1.2rem;    /* Размер буквы */
     user-select: none;    /* Чтобы букву нельзя было выделить мышкой */
 }
+
+.username {
+    /* 1. Базовый вид текста */
+    text-decoration: none;
+    color: #ffffff;
+    padding: 1px 7px;
+    font-size: 18px;
+    /* 2. Обязательно для анимации размера */
+    display: inline-block; 
+    
+    /* 3. Плавность: меняем только трансформацию за 0.3 секунды */
+    transition: transform 0.3s ease; 
+}
+
+.username:hover {
+    /* 4. Только увеличение текста и ничего больше */
+    /* 1.1 — это увеличение на 10%. Можешь поставить 1.2 для 20% */
+    transform: scale(1.1); 
+    
+    /* Цвет можно оставить тот же или сделать чуть ярче */
+    color: #00d1ff; 
+    transform: scale(1.5);
+}
+
+
+.text-secondary {
+    padding: 1px 8px;
+}
+.btn-comment-like {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.btn-comment-like:hover {
+    color: #fff;
+}
+
+.btn-comment-like.liked {
+    color: var(--accent-blue); /* Твой фирменный синий цвет */
+}
+
+.btn-comment-like i {
+    font-size: 0.75rem;
+}

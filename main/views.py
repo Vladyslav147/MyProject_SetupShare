@@ -4,7 +4,7 @@ from main import models
 from django.views.generic import CreateView, DeleteView, DetailView, View, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CreateNewPostForm, UpdatePostForm, CommentPostForm
-from .models import SetupPosts
+from .models import SetupPosts, CommentPost
 from django.urls import reverse_lazy, reverse
 from django.db.models import Count
 from django.core.paginator import Paginator
@@ -21,8 +21,8 @@ class MainPagePostViews(ListView):
         sort = self.request.GET.get('status')
         if sort == 'old':
             return SetupPosts.objects.order_by('time')
-        elif sort == 'new':
-            return SetupPosts.objects.order_by('-time')
+        elif sort == 'likes':
+            return SetupPosts.objects.annotate(lik=Count('likes')).order_by('-lik')
         else:
             return SetupPosts.objects.all().order_by('-time')
         
@@ -45,6 +45,7 @@ class Detail_PostView(LoginRequiredMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.annotate(like_count=Count('comment_likes')).order_by('-like_count', '-created_at')
         context["input_comment"] = CommentPostForm()
         return context
     
@@ -91,3 +92,12 @@ class UpdatePostView(LoginRequiredMixin, UpdateView):
 
     
 
+class CommentLikesView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        comment = get_object_or_404(models.CommentPost, pk=pk)
+        if request.user in comment.comment_likes.all():
+            comment.comment_likes.remove(request.user)
+        else:
+            comment.comment_likes.add(request.user)
+        return redirect('main:detail_post', pk=comment.post.pk)
+    

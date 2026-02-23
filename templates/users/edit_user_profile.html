@@ -23,8 +23,13 @@
                     <div class="profile-banner-edit">
                         <label class="field-label">Фон профиля (Обложка)</label>
                         <div class="banner-upload">
-                            {% if all_likes == 10 %}
+                            {% if all_likes >= 1 %}
                                 {{form.background_image}}
+                                {% if form.background_image.errors %}
+                                    <div>
+                                        <h1 style='color: #ff0000;  text-align: center;'>⚠️{{form.background_image.errors|striptags}}</h1>
+                                    </div>
+                                {% endif %}
                                 <label for="bg-input" class="banner-label"><span class="icon">🖼️</span><span>ВЫБРАТЬ НОВУЮ ОБЛОЖКУ</span></label>
                             {% else %}
                                 <label for="bg-input" class="banner-label">

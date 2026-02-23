@@ -64,8 +64,15 @@ class CommentPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     text = models.CharField(max_length=255)
 
+    comment_likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='comment_likes')
     class Meta:
         ordering = ['-created_at']
 
     def __str__(self):
         return self.text
+    
+    @property
+    def total_likes_comment(self):
+        return self.comment_likes.count()
+
+    

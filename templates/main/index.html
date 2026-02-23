@@ -20,7 +20,7 @@
         <div class="filter-nav d-flex justify-content-center gap-2 mb-5">
             <a href="?status=all" class="filter-btn {% if request.GET.status == 'all' or not request.GET.status %}active{% endif %}">Все посты</a>
             <a href="?status=old" class="filter-btn {% if request.GET.status == 'old'%}active{% endif %}">Давние посты</a>
-            <a href="?status=new" class="filter-btn {% if request.GET.status == 'new'%}active{% endif %}">Недавние посты</a>
+            <a href="?status=likes" class="filter-btn {% if request.GET.status == 'likes'%}active{% endif %}">Популярные</a>
         </div>
 
         

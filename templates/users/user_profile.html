@@ -12,52 +12,55 @@
 {% block content %}
 
 <div class="container mt-5 mb-5">
-    <header class="profile-header" style="--bg-image: url('{% if request.user.biousers.background_image %}{{request.user.biousers.background_image.url}}{% endif %}');">
+    <header class="profile-header" style="--bg-image: url('{% if user_profile.biousers.background_image %}{{user_profile.biousers.background_image.url}}{% endif %}');">
         
         <div class="profile-content">
             <div class="avatar-container">
                 <div class="avatar-large">
-                    {% if request.user.biousers.avatar %}
-                        <img src="{{ request.user.biousers.avatar.url }}" alt="Avatar" class="avatar-img">
+                    {% if user_profile.biousers.avatar %}
+                        <img src="{{ user_profile.biousers.avatar.url }}" alt="Avatar" class="avatar-img">
                     {% else %}
-                        {{ request.user.biousers.first_name|default:request.user.username|slice:":1"|upper }}
+                        {{ user_profile.biousers.first_name|default:user_profile.username|slice:":1"|upper }}
                     {% endif %}
                 </div>
-                <button class="btn-edit-avatar" title="Изменить фото профиля">
-                    <i class="bi bi-pencil-fill"></i>
-                </button>
+                {% if request.user == user_profile %}
+                    <button class="btn-edit-avatar" title="Изменить фото профиля">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                {% endif %}
             </div>
 
-            <h1 class="profile-name">{{ request.user.biousers.first_name|default:request.user.username }}</h1>
-            <p class="profile-tag">{{request.user.biousers.profission|default:''}}</p>
+            <h1 class="profile-name">{{ user_profile.biousers.first_name|default:user_profile.username }}</h1>
+            <p class="profile-tag">{{user_profile.biousers.profission|default:''}}</p>
             
             <div class="profile-bio-container mx-auto">
                 <p class="profile-bio">
-                    {{request.user.biousers.bio|default:''}}
+                    {{user_profile.biousers.bio|default:''}}
                 </p>
             </div>
 
+            <!-- ссылки -->
             <div class="social-links mb-4">
-                {% if request.user.biousers.github_url %}
-                    <a href="{{request.user.biousers.github_url}}" target="_blank" class="social-icon"><i class="bi bi-github"></i></a>
+                {% if user_profile.biousers.github_url %}
+                    <a href="{{user_profile.biousers.github_url}}" target="_blank" class="social-icon"><i class="bi bi-github"></i></a>
                 {% endif %}
-                {% if request.user.biousers.Instagram_url %}
-                    <a href="{{request.user.biousers.Instagram_url}}" class="social-icon"><i class="bi bi-instagram"></i></a>
+                {% if user_profile.biousers.Instagram_url %}
+                    <a href="{{user_profile.biousers.Instagram_url}}" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>
                 {% endif %}
-                {% if request.user.biousers.discord_username %}
-                    <a href="{{request.user.biousers.discord_username}}" class="social-icon"><i class="bi bi-discord"></i></a>
+                {% if user_profile.biousers.discord_username %}
+                    <a href="{{user_profile.biousers.discord_username}}" target="_blank" class="social-icon"><i class="bi bi-discord"></i></a>
                 {% endif %}
-                {% if request.user.biousers.steam_url%}
-                    <a href="{{request.user.biousers.steam_url}}" class="social-icon"><i class="bi bi-steam"></i></a>
+                {% if user_profile.biousers.steam_url%}
+                    <a href="{{user_profile.biousers.steam_url}}" target="_blank" class="social-icon"><i class="bi bi-steam"></i></a>
                 {% endif %}
-                {% if request.user.biousers.telegram_url %}
-                    <a href="{{request.user.biousers.telegram_url}}" class="social-icon"><i class="bi bi-telegram"></i></a>
+                {% if user_profile.biousers.telegram_url %}
+                    <a href="{{user_profile.biousers.telegram_url}}" target="_blank" class="social-icon"><i class="bi bi-telegram"></i></a>
                 {% endif %}
-                {% if request.user.biousers.spotify_url %}
-                    <a href="{{request.user.biousers.spotify_url}}" class="social-icon"><i class="bi bi-spotify"></i></a>
+                {% if user_profile.biousers.spotify_url %}
+                    <a href="{{user_profile.biousers.spotify_url}}" target="_blank" class="social-icon"><i class="bi bi-spotify"></i></a>
                 {% endif %}
-                {% if request.user.biousers.tiktok_url %}
-                    <a href="{{request.user.biousers.tiktok_url}}" class="social-icon"><i class="bi bi-tiktok"></i></a>
+                {% if user_profile.biousers.tiktok_url %}
+                    <a href="{{user_profile.biousers.tiktok_url}}" target="_blank" class="social-icon"><i class="bi bi-tiktok"></i></a>
                 {% endif %}
             </div>
 
@@ -72,25 +75,35 @@
                 </div>
             </div>
 
+            
             <div class="profile-actions">
+                {% if request.user == user_profile %}
                 <a href="{% url 'main:add_post' %}" class="btn-add-post">
                     <i class="bi bi-plus-lg me-1"></i> НОВЫЙ ПОСТ
                 </a>
 
                 <a href="{% url 'users:edit-profile' pk=request.user.pk %}" class="btn-edit-profile"> ИЗМЕНИТЬ ПРОФИЛЬ</a>
+                {% else %}
+                    <a href="{% url 'users:edit-profile' pk=request.user.pk %}" class="btn-edit-profile2"><i class="bi bi-pencil-square"></i> Написать</a>
+                {% endif %}
             </div>
+            
         </div>
     </header>
     
+    <!-- Кнопки ПОНРАВИЛОСЬ\МОИПОСТЫ -->
     <div class="profile-nav mb-5">
         <a href="?status=my" class="profile-nav-btn {% if request.GET.status == 'my' %}active{% endif %}">
-            <i class="bi bi-grid-3x3-gap me-2"></i> МОИ ПОСТЫ
+            <i class="bi bi-grid-3x3-gap me-2"></i> {% if request.user == user_profile %}МОИ ПОСТЫ{% else %}Посты автора {% endif %}
         </a>
+        {% if request.user == user_profile %}
         <a href="?status=like" class="profile-nav-btn {% if request.GET.status == 'like' %}active{% endif %}">
-            <i class="bi bi-heart-fill me-2"></i> ПОНРАВИЛОСЬ
+            <i class="bi bi-heart-fill me-2"></i>ПОНРАВИЛОСЬ
         </a>
+        {% endif %}
     </div>
 
+    <!-- Посты автора -->
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
         {% for posts in post %}
         <div class="col">

@@ -1,11 +1,21 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Tag, SetupPosts, CommentPost
-from users.models import CustomRegisterUser
+from users.models import CustomRegisterUser, BioUsers
 
 
+
+@admin.register(BioUsers)
+class Users(admin.ModelAdmin):
+    list_display = ('creator', 'first_name', 'get_html_photo_user')
+    def get_html_photo_user(self, object):
+        if object.avatar:
+            return mark_safe(f"<img src='{object.avatar.url}' width=50>")
+        return "Нет фото"
+
+    get_html_photo_user.short_description = "Превью"
+    
 admin.site.register(CustomRegisterUser)
-
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')

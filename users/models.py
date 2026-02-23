@@ -13,7 +13,7 @@ class BioUsers(models.Model):
     creator = models.OneToOneField(CustomRegisterUser, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatar', null=True, blank=True, verbose_name='Аватар')
     background_image = models.ImageField(upload_to='background_image', null=True, blank=True, verbose_name='Фоновое изображение')
-    first_name = models.CharField(max_length=10, verbose_name='Имя пользователя')
+    first_name = models.CharField(max_length=10, null=True, blank=True, verbose_name='Имя пользователя')
     profission = models.CharField(max_length=30, null=True, blank=True, verbose_name='Професия')
     bio = models.CharField(max_length=255, null=True, blank=True, verbose_name='Биография')
 

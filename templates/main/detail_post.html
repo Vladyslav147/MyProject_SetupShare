@@ -10,144 +10,152 @@
     {% endblock extra_css %}
 
 {% block content %}
-    <div class="container mt-5 mb-5">
-        <a href="{% url 'main:main_page'%}" class="text-decoration-none text-secondary mb-5 d-inline-block fw-bold">
-            <i class="bi bi-arrow-left"></i> НАЗАД В ЛЕНТУ
-        </a>
+<div class="container mt-5 mb-5">
+    <a href="{% url 'main:main_page'%}" class="text-decoration-none text-secondary mb-5 d-inline-block fw-bold">
+        <i class="bi bi-arrow-left"></i> НАЗАД В ЛЕНТУ
+    </a>
 
-        <div class="row g-5">
-            <div class="col-lg-8">
+    <div class="row g-5">
+        <div class="col-lg-8">
 
-                <div class="main-image-container mb-4">
-                    <img src="{{ DetailPost.main_photo.url }}" alt="Main Setup">
+            <div class="main-image-container mb-4">
+                <img src="{{ DetailPost.main_photo.url }}" alt="Main Setup">
+            </div>
+
+            <!-- Проверка на доп.фото -->
+            <div class="row g-3 mb-5">
+                {% if DetailPost.more_photo1 %}
+                <div class="col-4">
+                    <img src="{{ DetailPost.more_photo1.url }}" class="gallery-img" onclick="expandImage(this.src)" style="cursor: pointer;">
                 </div>
+                {% endif %}
 
-                <!-- Проверка на доп.фото -->
-                <div class="row g-3 mb-5">
-                    {% if DetailPost.more_photo1 %}
-                    <div class="col-4">
-                        <img src="{{ DetailPost.more_photo1.url }}" class="gallery-img" onclick="expandImage(this.src)" style="cursor: pointer;">
-                    </div>
-                    {% endif %}
-
-                    {% if DetailPost.more_photo2 %}
-                    <div class="col-4">
-                        <img src="{{DetailPost.more_photo2.url }}" class="gallery-img" alt="ПК внутри" onclick="expandImage(this.src)" style="cursor: pointer;">
-                    </div>
-                    {% endif %}
-
-                    {% if DetailPost.more_photo3 %}
-                    <div class="col-4">
-                        <img src="{{DetailPost.more_photo3.url}}" class="gallery-img" alt="Мышь" onclick="expandImage(this.src)" style="cursor: pointer;">
-                    </div>
-                    {% endif %}
-
-                    <div id="image-popup" class="popup-overlay" onclick="closeImage()">
-                        <span class="popup-close">&times;</span>
-                        <img id="popup-img" class="popup-content">
-                    </div>
+                {% if DetailPost.more_photo2 %}
+                <div class="col-4">
+                    <img src="{{DetailPost.more_photo2.url }}" class="gallery-img" alt="ПК внутри" onclick="expandImage(this.src)" style="cursor: pointer;">
                 </div>
+                {% endif %}
 
-                <div class="assembly-card">
-                    <h2 class="assembly-title">История сборки</h2>
-                    <p class="assembly-text">
-                        {{DetailPost.story_setup|linebreaksbr|default:"История не написана"}} <!-- linebreaksbr - не игнорирует \n в тексте -->
-                    </p>
+                {% if DetailPost.more_photo3 %}
+                <div class="col-4">
+                    <img src="{{DetailPost.more_photo3.url}}" class="gallery-img" alt="Мышь" onclick="expandImage(this.src)" style="cursor: pointer;">
                 </div>
+                {% endif %}
 
-
-                <!-- Комментарии-->
-                <div class="comments-section">
-                    <h4 class="mb-4 fw-bold text-white">Комментарии ({{DetailPost.get_comments_count}})</h4>
-
-                    <form method='post'>
-                        {% csrf_token %}
-                        <div class="comment-input-area">
-                            {{input_comment}}
-                            <div class="text-end mt-2">
-                                <button class="btn btn-primary btn-sm px-4 fw-bold" style="border-radius: 10px;">ОТПРАВИТЬ</button>
-                            </div>
-                        </div>
-                    </form>
-
-                    {% for comment in DetailPost.comments.all %}
-                        <div class="comment-list">
-                            <div class="comment-card">
-                                <div class="comment-header">
-                                    <div class="comment-author">
-                                        <div class="avatar" style="width: 30px; height: 30px; font-size: 0.8rem; background: #8623bb;">{{comment.creator.username|slice:":1"}}</div>
-                                        <span>{{comment.creator}}</span>
-                                    </div>
-                                    <span class="comment-time">{{comment.created_at|timesince}}</span>
-                                </div>
-                                <p class="comment-text">{{ comment.text }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
+                <div id="image-popup" class="popup-overlay" onclick="closeImage()">
+                    <span class="popup-close">&times;</span>
+                    <img id="popup-img" class="popup-content">
                 </div>
             </div>
 
+            <div class="assembly-card">
+                <h2 class="assembly-title">История сборки</h2>
+                <p class="assembly-text">
+                    {{DetailPost.story_setup|linebreaksbr|default:"История не написана"}} <!-- linebreaksbr - не игнорирует \n в тексте -->
+                </p>
+            </div>
 
-            
-            <div class="col-lg-4">
-                <div class="d-grid gap-3 mb-4">
-
-                    <!-- Форма лайка -->
-                    <form action="{% url 'main:posts-likes' DetailPost.pk %}" method='post'>
-                        {% csrf_token %}
-                        <button type='submit' class="btn btn-like fw-bold py-3 d-flex align-items-center justify-content-center w-100 {% if request.user in DetailPost.likes.all %}liked{% endif %}">
-                            <i class="bi bi-heart-fill me-2"></i> 
-                            МНЕ НРАВИТСЯ 
-                            <span class="ms-2 like-count">{{ DetailPost.get_total_likes }}</span>
-                        </button>
-                    </form>
-
-                    <!-- Твой ли это пост что бы ты мог удалить или редактировать -->
-                    {% if DetailPost.creator == request.user %}
-                        <a href="{% url 'main:edit_post' DetailPost.pk %}" class="btn btn-warning fw-bold py-3" style="border-radius: 14px;">РЕДАКТИРОВАТЬ</a>
-                        
-                        <form action="{% url 'main:delet_post' DetailPost.pk %}" class="w-100">
-                            {% csrf_token %}
-                            <button type='submit' class="btn btn-outline-danger fw-bold py-3 w-100" style="border-radius: 14px; border-width: 2px;">УДАЛИТЬ ПОСТ</button>
-                        </form>
-                    {% endif %}
-                </div>
-
-                <div class="specs-card">
-                    <div class="specs-title">⚙️ ЖЕЛЕЗО (SPECS)</div>
-
-                    <ul class="specs-list">
-                        {% for spec in DetailPost.get_specs_list %}
-                        <li><span class="specs-label">{{spec.label}}</span><span class="specs-value">{{spec.value}}</span></li>
-                        {% endfor %}
-                    </ul>
-
-
-                    <div class="personal-note-simple">
-                        <span class="note-label-simple">Личное дополнение</span>
-                        <p class="note-text-simple">{{DetailPost.comment|default:"Нет дополнений"}}</p>
+            <!-- Комментарии-->
+            <div class="comments-section">
+                <h4 class="mb-4 fw-bold text-white">Комментарии ({{DetailPost.get_comments_count}})</h4>
+                <form method='post'>
+                    {% csrf_token %}
+                    <div class="comment-input-area">
+                        {{input_comment}}
+                        <div class="text-end mt-2">
+                            <button class="btn btn-primary btn-sm px-4 fw-bold" style="border-radius: 10px;">ОТПРАВИТЬ</button>
+                        </div>
                     </div>
+                </form>
 
-                    <div class="post-author-footer">
-                        <div class="avatar me-3">
-                            {% if DetailPost.creator.biousers.avatar %}
-                                <img src="{{ DetailPost.creator.biousers.avatar.url }}" alt="Avatar" class="avatar-img">
-                            {% else %}
-                                <div class="avatar-placeholder">
-                                    {{ DetailPost.creator.username|slice:":1"|upper }}
+                {% for comment in comments %}
+                    <div class="comment-list">
+                        <div class="comment-card">
+                            <div class="comment-header">
+                                <div class="comment-author">
+                                    <div class="avatar" style="width: 30px; height: 30px; font-size: 0.8rem; background: #8623bb;">{{comment.creator.username|slice:":1"}}</div>
+                                    <span>{{comment.creator}}</span>
                                 </div>
-                            {% endif %}
-                        </div>
-                        <div>
-                            <div class="fw-bold text-white">{{ DetailPost.creator.username}}</div>
-                            <div class="small text-secondary">{{ DetailPost.time|timesince}} назад</div>
+                                <span class="comment-time">{{comment.created_at|timesince}}</span>
+                            </div>
+                            <p class="comment-text">{{ comment.text }}</p>
+
+                            <div class="comment-footer mt-2"> 
+                                <!-- Форма лайка коментария-->
+                                <form method='POST' action="{% url 'main:comment-likes' pk=comment.pk %}">
+                                    {% csrf_token %}
+                                    <button type='submit' class="btn-comment-like {% if request.user in comment.comment_likes.all %}liked{% endif %}">    <!-- liked-->
+                                        <i class="bi bi-heart-fill"></i>
+                                        <span class="comment-like-count">{{comment.total_likes_comment}}</span>
+                                    </button>
+                                </form>
+                                
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div> 
+                {% endfor %}
+            </div>
         </div>
+        
+        <div class="col-lg-4">
+            <div class="d-grid gap-3 mb-4">
+                <!-- Форма лайка -->
+                <form action="{% url 'main:posts-likes' DetailPost.pk %}" method='post'>
+                    {% csrf_token %}
+                    <button type='submit' class="btn btn-like fw-bold py-3 d-flex align-items-center justify-content-center w-100 {% if request.user in DetailPost.likes.all %}liked{% endif %}">
+                        <i class="bi bi-heart-fill me-2"></i> 
+                        МНЕ НРАВИТСЯ 
+                        <span class="ms-2 like-count">{{ DetailPost.get_total_likes }}</span>
+                    </button>
+                </form>
+
+                <!-- Твой ли это пост что бы ты мог удалить или редактировать -->
+                {% if DetailPost.creator == request.user %}
+                    <a href="{% url 'main:edit_post' DetailPost.pk %}" class="btn btn-warning fw-bold py-3" style="border-radius: 14px;">РЕДАКТИРОВАТЬ</a>
+                    
+                    <form action="{% url 'main:delet_post' DetailPost.pk %}" class="w-100">
+                        {% csrf_token %}
+                        <button type='submit' class="btn btn-outline-danger fw-bold py-3 w-100" style="border-radius: 14px; border-width: 2px;">УДАЛИТЬ ПОСТ</button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <!-- Боковое меню характеристик-->
+            <div class="specs-card">
+                <div class="specs-title">⚙️ ЖЕЛЕЗО (SPECS)</div>
+
+                <ul class="specs-list">
+                    {% for spec in DetailPost.get_specs_list %}
+                    <li><span class="specs-label">{{spec.label}}</span><span class="specs-value">{{spec.value}}</span></li>
+                    {% endfor %}
+                </ul>
+
+                <div class="personal-note-simple">
+                    <span class="note-label-simple">Личное дополнение</span>
+                    <p class="note-text-simple">{{DetailPost.comment|default:"Нет дополнений"}}</p>
+                </div>
+
+                <div class="post-author-footer">
+                    <div class="avatar me-3">
+                        {% if DetailPost.creator.biousers.avatar %}
+                            <img src="{{ DetailPost.creator.biousers.avatar.url }}" alt="Avatar" class="avatar-img">
+                        {% else %}
+                            <div class="avatar-placeholder">
+                                {{ DetailPost.creator.biousers.first_name|default:DetailPost.creator.username|slice:":1"|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <div class="fw-bold text-white"><a class="username" href="{% url 'users:profile' pk=DetailPost.creator.pk %}">{{ DetailPost.creator.biousers.first_name|default:DetailPost.creator.username}}</a></div>
+                        <div class="small text-secondary">{{ DetailPost.time|timesince}} назад</div>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
+</div>
     
+
 <script>
 function expandImage(src) {
     const popup = document.getElementById('image-popup');
