@@ -8,7 +8,7 @@ from django.contrib.auth import login, logout
 from main.models import SetupPosts
 from users.models import BioUsers, CustomRegisterUser
 from django.db.models import Count
-# Create your views here.
+# Create your views here
 
 class PageLoginView(LoginView):
     template_name = 'users/login.html'
