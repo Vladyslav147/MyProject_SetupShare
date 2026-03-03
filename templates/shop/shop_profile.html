@@ -1,0 +1,136 @@
+{% extends "base_shop.html" %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'shop/shop_profile.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="pcmarket-profile-page">
+  <main class="profile-container">
+
+    <div class="back-nav">
+      <a href="{% url 'Shop:mainshop' %}" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="back-icon">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Вернуться в магазин</span>
+      </a>
+    </div>
+
+    <section class="profile-header-card">
+      <div class="user-avatar">{{ profile.username|slice:'1'}}</div>
+      
+      <div class="user-name-wrapper">
+        <h1 class="user-name">{{ profile.username }}</h1>
+        <button class="edit-btn" title="Настройки">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        </button>
+      </div>
+
+      <div class="user-meta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        На сайте с {{ profile.date_joined|date:"j E Y"}}
+      </div>
+
+      <div class="user-stats">
+        <div class="stat-box">
+          <span class="stat-num">{{all_post}}</span>
+          <span class="stat-label">Публикации</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="tabs-container">
+      {% if profile == request.user %}
+        <a class="tab-btn {% if request.GET.status == 'my'%}active{% endif%}" href='?status=my' data-tab="my-posts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          МОИ ПОСТЫ
+        </a>
+      {% else %}
+          <a class="tab-btn {% if request.GET.status == 'my'%}active{% endif%}" href='?status=my' data-tab="my-posts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            ПОСТЫ АВТОРА
+        </a>
+      {% endif %}
+      {% if profile == request.user %}
+        <a href='?status=likes'class="tab-btn {% if request.GET.status == 'likes'%}active{% endif%}" data-tab="saved-posts">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          ПОНРАВИЛОСЬ
+        </a>
+      {% endif %}
+    </div>
+
+    <div id="my-posts" class="tab-content active products-grid">
+      
+    {% for products in product %}
+        <article class="card">
+            <div class="card-img-box">
+            <img src="{{products.main_photo.url}}" alt="Монитор" class="card-image">
+            <span class="badge">{{products.get_state_display}}</span>
+            <button class="like-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+            </div>
+            <h3 class="card-title">{{products.title}}</h3>
+            <div class="card-price">{{products.price}} <span>грн</span></div>
+            <div class="card-footer">
+            <span class="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> {{products.city}}</span>
+            <span class="time">{{products.created_to|timesince}}</span>
+            </div>
+            <a href='{{products.get_absolute_url}}'class="btn-primary">Посмотреть полностью</a>
+        </article>
+    {% endfor %}
+    </div>
+
+    <div id="saved-posts" class="tab-content products-grid">
+      <div class="empty-state">
+        <p style="grid-column: 1 / -1;">Здесь будут отображаться товары, которые ты добавил в избранное.</p>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Скрипт для переключения вкладок
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active', 'products-grid'));
+      
+      btn.classList.add('active');
+      
+      const tabId = btn.getAttribute('data-tab');
+      const content = document.getElementById(tabId);
+      content.classList.add('active');
+      
+      if (content.querySelector('.card')) {
+        content.classList.add('products-grid');
+      }
+    });
+  });
+
+  // НОВЫЙ СКРИПТ: Логика кнопки лайка
+  const likeBtns = document.querySelectorAll('.like-btn');
+  likeBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Добавляем или убираем класс 'liked'
+      this.classList.toggle('liked');
+      
+      // Находим SVG внутри кнопки
+      const icon = this.querySelector('svg');
+      
+      // Меняем заливку: если лайкнуто - закрашиваем, если нет - делаем пустым
+      if (this.classList.contains('liked')) {
+        icon.setAttribute('fill', 'currentColor');
+      } else {
+        icon.setAttribute('fill', 'none');
+      }
+    });
+  });
+</script>
+{% endblock content %}

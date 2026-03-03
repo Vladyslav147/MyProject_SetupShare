@@ -1,0 +1,373 @@
+/* ПЕРЕНЕСЛИ :root и базовые стили в класс-обертку */
+.pcmarket-profile-page {
+  --bg-main: #121212;
+  --bg-card: #1e1e24;
+  --bg-hover: #2a2a2c;
+  --accent-cyan: #00d1c1;
+  --accent-yellow: #ffd700;
+  --text-main: #ffffff;
+  --text-muted: #a8a8a8; 
+  --text-secondary: #c4c4c4; 
+
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* Применяем box-sizing только внутри нашей обертки, чтобы не ломать Bootstrap */
+.pcmarket-profile-page * {
+  box-sizing: border-box;
+}
+
+/* Дальше перед каждым классом стоит .pcmarket-profile-page */
+
+.pcmarket-profile-page .profile-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.pcmarket-profile-page .profile-header-card {
+  background: linear-gradient(180deg, #1e1e24 0%, #17171c 100%);
+  border-radius: 24px;
+  padding: 50px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.pcmarket-profile-page .user-avatar {
+  width: 120px;
+  height: 120px;
+  background-color: var(--accent-cyan);
+  color: var(--bg-main);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  box-shadow: 0 0 25px rgba(0, 209, 193, 0.2);
+}
+
+.pcmarket-profile-page .user-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.pcmarket-profile-page .user-name {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0; /* Сброс отступов заголовка Bootstrap */
+}
+
+.pcmarket-profile-page .edit-btn {
+  background: var(--accent-cyan);
+  border: none;
+  color: var(--bg-main);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+  padding: 0;
+}
+
+.pcmarket-profile-page .edit-btn:hover {
+  transform: scale(1.1);
+}
+
+.pcmarket-profile-page .edit-btn svg { width: 14px; height: 14px; }
+
+.pcmarket-profile-page .user-meta {
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.pcmarket-profile-page .user-meta svg { width: 18px; height: 18px; }
+
+.pcmarket-profile-page .user-stats {
+  display: flex;
+  gap: 60px;
+}
+
+.pcmarket-profile-page .stat-box {
+  text-align: center;
+}
+
+.pcmarket-profile-page .stat-num {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.pcmarket-profile-page .stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+/* --- ТАБЫ --- */
+.pcmarket-profile-page .tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 50px;
+  border-bottom: 1px solid #2a2a2c;
+  padding-bottom: 0;
+}
+
+.pcmarket-profile-page .tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0 10px 16px 10px;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+
+.pcmarket-profile-page .tab-btn svg { width: 18px; height: 18px; }
+
+.pcmarket-profile-page .tab-btn:hover {
+  color: var(--text-main);
+}
+
+.pcmarket-profile-page .tab-btn.active {
+  color: var(--accent-cyan);
+  border-bottom: 3px solid var(--accent-cyan);
+}
+
+/* --- СЕТКА ТОВАРОВ --- */
+.pcmarket-profile-page .products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .pcmarket-profile-page .products-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .pcmarket-profile-page .products-grid { grid-template-columns: 1fr; }
+}
+
+.pcmarket-profile-page .tab-content {
+  display: none;
+}
+
+.pcmarket-profile-page .tab-content.active {
+  display: block;
+}
+.pcmarket-profile-page .tab-content.active.products-grid {
+  display: grid;
+}
+
+/* --- КАРТОЧКА ТОВАРА --- */
+.pcmarket-profile-page .card {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  border: none; /* Сброс границ Bootstrap */
+}
+
+.pcmarket-profile-page .card-img-box {
+  position: relative;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: var(--bg-hover);
+}
+
+.pcmarket-profile-page .badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background-color: var(--accent-yellow);
+  color: #000;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.pcmarket-profile-page .like-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(30, 30, 36, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.pcmarket-profile-page .like-btn:hover { 
+  color: #ffffff; 
+  background: var(--bg-card);
+}
+.pcmarket-profile-page .like-btn svg { width: 18px; height: 18px; }
+
+.pcmarket-profile-page .card-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.pcmarket-profile-page .card-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  margin-bottom: 20px;
+}
+
+.pcmarket-profile-page .card-price span { 
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-left: 4px;
+}
+
+.pcmarket-profile-page .card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.pcmarket-profile-page .location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pcmarket-profile-page .location svg { width: 14px; height: 14px; }
+
+/* Кнопка с !important чтобы точно перебить Bootstrap btn-primary */
+.pcmarket-profile-page .btn-primary {
+  width: 100%;
+  background-color: var(--accent-cyan) !important;
+  color: #000000 !important;
+  border: none !important;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s;
+}
+
+.pcmarket-profile-page .btn-primary:hover { 
+  opacity: 0.9; 
+}
+
+.pcmarket-profile-page .empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 40px 20px;
+  font-size: 16px;
+}
+
+/* Стили для картинки внутри карточки */
+.pcmarket-profile-page .card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease; /* Плавное увеличение при наведении */
+}
+
+/* Небольшой эффект: при наведении на картинку она чуть-чуть увеличивается */
+.pcmarket-profile-page .card-img-box:hover .card-image {
+  transform: scale(1.05);
+}
+
+/* Цвет кнопки лайка, когда на нее кликнули */
+.pcmarket-profile-page .like-btn.liked {
+  color: var(--accent-cyan);
+}
+
+.back-nav {
+  margin-bottom: 30px; /* Больше отступа снизу */
+  display: flex;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  
+  /* Цвета и видимость */
+  background-color: #f1f2f6; /* Постоянный светлый фон */
+  color: #2d3436;            /* Темный, контрастный текст */
+  border: 1px solid #dfe6e9; /* Тонкая рамка для четкости */
+  
+  /* Размеры */
+  padding: 12px 20px;
+  border-radius: 12px;       /* Скругленные углы в стиле карточек */
+  font-size: 16px;           /* Крупнее текст */
+  font-weight: 600;          /* Жирнее шрифт */
+  
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Легкая тень */
+}
+
+/* Эффект при наведении (теперь он более выраженный) */
+.back-link:hover {
+  background-color: #ffffff;
+  border-color: #b2bec3;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-2px); /* Кнопка чуть «всплывает» */
+}
+
+.back-icon {
+  width: 20px;
+  height: 20px;
+}

@@ -69,7 +69,7 @@
 
 /* НОВЫЙ ЭЛЕМЕНТ: ВРЕМЯ ПУБЛИКАЦИИ */
 .post-time {
-    color: #444; /* Приглушенный цвет для баланса */
+    color: #707070; /* Приглушенный цвет для баланса */
     font-size: 0.65rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -92,8 +92,8 @@
 
 /* === ТЕГИ (МИНИМАЛИЗМ) === */
 .badge-custom {
-    background: rgba(255, 255, 255, 0.03);
-    color: #555;
+    background: rgba(48, 48, 48, 0.03);
+    color: #939393;
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 0.65rem;

@@ -1,0 +1,220 @@
+/* --- ПЕРЕМЕННЫЕ ЦВЕТОВ --- */
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --accent: #00eadc; 
+    --accent-hover: #00c4b8;
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --border-color: #333;
+    --input-bg: #2a2a2a;
+}
+
+/* --- СБРОС И БАЗА --- */
+/* Убираем глобальные отступы и line-height, чтобы шапка не задевалась */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    line-height: normal; 
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 25px;
+    line-height: 1.6; /* Интервал только для контента формы */
+}
+
+/* --- ХЕДЕР ФОРМЫ --- */
+.form-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.form-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.form-header p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    opacity: 0.8;
+}
+
+/* Кнопка "На главную" слева */
+.btn-home-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--accent);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+    transition: all 0.2s ease;
+}
+
+.btn-home-link:hover {
+    opacity: 0.8;
+    transform: translateX(-5px);
+}
+
+/* --- СЕКЦИИ (КАРТОЧКИ) --- */
+.form-section {
+    background: var(--card-bg);
+    padding: 35px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.section-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+/* --- ВЫРАЗИТЕЛЬНЫЕ ИНПУТЫ --- */
+.input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-box label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+    text-transform: uppercase; /* Делает подписи строже */
+    opacity: 0.8;
+}
+
+input, select, textarea {
+    background: var(--input-bg);
+    /* Рамка 2px — делает инпут заметным на темном фоне */
+    border: 2px solid #3d3d3d; 
+    color: white;
+    padding: 14px 20px;
+    border-radius: 12px;
+    outline: none;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Внутренняя тень для эффекта "вдавленности" */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); 
+}
+
+/* Наведение */
+input:hover, select:hover, textarea:hover {
+    border-color: #555;
+    background: #323232;
+}
+
+/* Фокус (выделение при клике) */
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    background: #222;
+    /* Синее свечение + внутренняя глубина */
+    box-shadow: 0 0 15px rgba(0, 234, 220, 0.15), 
+                inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px); /* Легкий интерактивный подъем */
+}
+
+/* --- ФОТО (НА ВСЮ ШИРИНУ) --- */
+.photo-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.upload-item {
+    width: 100%;
+}
+
+.drop-zone {
+    width: 100%; /* Растянуто на всю длину секции */
+    height: 150px;
+    border: 2px dashed #444;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.02);
+    transition: 0.3s;
+}
+
+.drop-zone.secondary {
+    height: 110px;
+}
+
+.drop-zone:hover {
+    border-color: var(--accent);
+    background: rgba(0, 234, 220, 0.05);
+}
+
+.drop-zone input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.drop-zone span {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* --- КНОПКА ОТПРАВКИ --- */
+.btn-submit {
+    width: 100%;
+    background: var(--accent);
+    color: #000;
+    padding: 18px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: var(--accent-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 234, 220, 0.3);
+}
+
+/* --- АДАПТИВНОСТЬ --- */
+@media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .full-width { grid-column: span 1; }
+}

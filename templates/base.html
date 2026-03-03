@@ -5,42 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Главная страница{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     {% block extra_css %}{% endblock extra_css %}
 </head>
 
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand " href="{% url 'main:main_page'%}">SetupShare</a>
-            <div class="d-flex align-items-center">
-
-            {% if user.is_authenticated %}
-                <span class="user-greeting d-none d-md-block">
-                    Hi -<span class="user-name">{{ user.username }}!</span>
-                </span>
-
-                <a href="{% url 'users:profile' pk=request.user.pk %}" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold me-2">ПРОФИЛЬ</a>
-                
-                {% if user.is_staff %}
-                    <a href="{% url 'admin:index'%}" class="btn btn-outline-info btn-sm rounded-pill px-4 fw-bold me-2">АДМИНКА</a>
-                {% endif %}
-
-                <form action="{% url 'users:logout'%}" method="post" style="display: inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold">ВЫЙТИ</button>
-                </form>
-                
-            {% else %}
-                <a href="{% url 'users:login'%}" class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold">ВОЙТИ</a>
-            {% endif %}
-
+<nav class="navbar navbar-expand-lg sticky-top custom-navbar">
+    <div class="container d-flex justify-content-between align-items-center">
+        
+        <div class="nav-left">
+            <a class="navbar-brand" href="{% url 'main:main_page' %}">SETUP<span>SHARE</span></a>
+        </div>
+        
+        {% if user.is_authenticated %}
+        <div class="nav-center d-none d-lg-block">
+            <div class="user-welcome-center">
+                Hi, <span class="highlight-name">{{request.user.username}}</span>!
             </div>
         </div>
-    </nav>
+
+        <div class="nav-right d-flex align-items-center gap-3">
+            <a href="{% url 'Shop:mainshop' %}" class="btn-market-right">
+                <i class="fa-solid fa-cart-shopping"></i> SetupMarket
+            </a>
+             
+            <div class="control-capsule d-flex align-items-center">
+                {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}" class="btn-cap btn-admin-visible">Админ</a>
+                {% endif %}
+
+                <a href="{% url 'users:profile' pk=request.user.pk %}" class="btn-cap btn-profile-main">Профиль</a>
+                
+                <form action="{% url 'users:logout' %}" method="post" class="m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-cap btn-exit-large">Выйти</button>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="nav-right">
+            <a href="{% url 'users:login' %}" class="btn-cap btn-profile-main">Войти</a>
+        </div>
+        {% endif %}
+    </div>
+</nav>
 
 
     {% block content %}
     {% endblock %}
 </body>
-</html>

@@ -1,0 +1,112 @@
+{% extends "base_shop.html" %}
+{% load static %}
+
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static "shop/add_product.css" %}"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% endblock extra_css %}
+
+{% block content %}
+
+<div class="container">
+    <div class="form-header">     
+            <h1>Создать объявление</h1>
+            <p>Заполните данные, чтобы быстрее продать комплектующие</p>
+        </div>
+            <a href="{% url 'Shop:mainshop'%}" class="btn-home-link">
+                <i class="fa-solid fa-arrow-left"></i> На главную
+            </a>
+
+    <form method="POST" enctype="multipart/form-data" class="listing-form">
+        {% csrf_token %}
+        <section class="form-section">
+            <div class="section-title"><i class="fas fa-camera"></i> Фотографии</div>
+            <div class="photo-upload-container">
+                <div class="upload-item main">
+                    <label>Главное фото</label>
+                    <div class="drop-zone">
+                        {{form.main_photo}}
+                        <span>+</span>
+                    </div>
+                </div>
+                {{ Photo_form.management_form }}
+
+                {% for photo_field in Photo_form %}
+                    <div class="upload-item">
+                        <label>Доп. фото (№{{ forloop.counter }})</label>
+                        <div class="drop-zone secondary">
+                            {# Обращаемся к полю 'photo', которое ты указал в fields формсета #}
+                            {{ photo_field.photo }}
+                            
+                            {# Скрытые технические поля (обязательно) #}
+                            {{ photo_field.id }}
+                            
+                            <span><i class="fas fa-images"></i> Выбрать файл</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="section-title"><i class="fas fa-info-circle"></i> Основная информация</div>
+            <div class="form-grid">
+                <div class="input-box full-width">
+                    <label>Заголовок объявления</label>
+                    {{form.title}}
+                </div>
+                <div class="input-box">
+                    <label>Город</label>
+                    {{form.city}}
+                </div>
+                <div class="input-box">
+                    <label>Цена (грн)</label>
+                    {{form.price}}
+                </div>
+                <div class="input-box">
+                    <label>Номер телефона</label>
+                    {{form.phone}}
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="section-title"><i class="fas fa-microchip"></i> Характеристики</div>
+            <div class="form-grid">
+                <div class="input-box">
+                    <label>Состояние</label>
+                    {{form.state}}
+                </div>
+                <div class="input-box">
+                    <label>Состояние</label>
+                    {{form.state_components}}
+                </div>
+                <div class="input-box">
+                    <label>Производитель</label>
+                    {{form.manufacture}}
+                </div>
+                <div class="input-box">
+                    <label>Гарантия</label>
+                    {{form.guarantee}}
+                </div>
+                <div class="input-box">
+                    <label>Комплектация</label>
+                    {{form.complete}}
+                </div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="section-title"><i class="fas fa-align-left"></i> Описание товара</div>
+            <div class="input-box full-width">
+                {{form.description}}
+            </div>
+        </section>
+
+        <div class="form-footer">
+            <button type="submit" class="btn-submit">Опубликовать товар</button>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

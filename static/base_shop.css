@@ -1,0 +1,220 @@
+/* --- ПЕРЕМЕННЫЕ И ОСНОВА (Необходимы для работы шапки) --- */
+:root {
+    --primary-teal: #002f34;      /* Основной темный цвет */
+    --accent-light: #23e5db;      /* Светло-бирюзовый */
+    --bg-gray: #f2f4f5;           /* Фон поиска */
+    --white: #ffffff;             /* Фон шапки */
+    --border-color: #d8dfe0;      /* Граница */
+    --text-main: #002f34;
+    --text-muted: #406367;
+}
+
+/* --- ТЕМНАЯ ТЕМА (Переопределение переменных) --- */
+body.dark-mode {
+    --bg-gray: #121212;
+    --white: #1e1e1e;
+    --border-color: #333333;
+    --text-main: #f2f4f5;
+    --primary-teal: #23e5db; /* Бирюзовый для кнопок в темной теме */
+}
+
+/* Сброс и база */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* --- ШАПКА САЙТА (HEADER) --- */
+.header {
+    height: 70px; /* Задай высоту, которая тебе нравится */
+    display: flex;
+    align-items: center; /* Центрирует всё внутри по вертикали */
+    background: var(--white);
+    padding: 0; /* Убираем падинг, раз есть высота */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.header-content {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Логотип */
+.logo {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.logo span {
+    color: #23e5db; /* Всегда бирюзовый */
+}
+
+/* Поиск в шапке */
+.search-bar {
+    height: 38px; /* Чуть уменьшили высоту для более аккуратного вида */
+    flex-grow: 1;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    background: var(--bg-gray);
+    border-radius: 8px;
+    padding: 0 15px; /* Убрали 8px сверху/снизу, оставили только по бокам */
+    border: 2px solid transparent; /* Тонкая невидимая рамка */
+    transition: all 0.2s ease;
+}
+
+.search-bar:focus-within {
+    border-color: var(--primary-teal);
+    background: var(--white);
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    outline: none;
+    font-size: 15px;
+    color: var(--text-main);
+}
+
+.search-bar button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text-main);
+}
+
+/* Блок кнопок и инструментов */
+.header-tools {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Кнопка переключения темы */
+.theme-toggle-btn {
+    background: var(--white);
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.theme-toggle-btn:hover {
+    border-color: var(--primary-teal);
+    transform: scale(1.05);
+}
+
+/* Общий стиль кнопок в хедере */
+.header-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid var(--primary-teal);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--primary-teal);
+    color: var(--white);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--primary-teal);
+}
+
+/* --- КОРРЕКТИРОВКИ ДЛЯ DARK MODE --- */
+body.dark-mode .btn-primary {
+    color: #121212; /* Темный текст на бирюзовом фоне для читаемости */
+}
+
+/* Скрываем текст "SetupShare" на мобилках (если есть такая кнопка в хедере) */
+@media (max-width: 768px) {
+    .header-btn span {
+        display: none;
+    }
+    .header-btn {
+        padding: 10px 12px;
+    }
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Кнопка "Обратно на сайт" */
+.btn-back {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    border-color: var(--primary-teal);
+    background: var(--bg-gray);
+    color: var(--primary-teal);
+}
+
+/* Иконка в кнопке */
+.btn-back i {
+    font-size: 14px;
+}
+
+/* Адаптивность: на мобилках прячем текст, оставляем только иконку домика */
+@media (max-width: 768px) {
+    .btn-back span {
+        display: none;
+    }
+    .btn-back {
+        padding: 10px 12px;
+    }
+}
+a {
+    text-decoration: none; /* Убирает линию */
+    color: inherit; /* Ссылка станет цвета окружающего текста */
+}
+/* Находим ссылку внутри логотипа */
+.logo a {
+    display: inline-block; /* Обязательно, чтобы трансформация работала */
+    transition: transform 0.3s ease; /* Плавность анимации (0.3 секунды) */
+    text-decoration: none; /* Убираем подчеркивание, если оно есть */
+}
+
+/* Эффект при наведении */
+.logo a:hover {
+    transform: scale(1.05); /* Увеличиваем на 5% */
+}
+
+/* Опционально: можно добавить легкое свечение в твоем бирюзовом цвете */
+.logo a:hover span {
+    text-shadow: 0 0 10px rgba(0, 209, 193, 0.5);
+    transition: text-shadow 0.3s ease;
+}

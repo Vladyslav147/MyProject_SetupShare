@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Tag, SetupPosts, CommentPost
 from users.models import CustomRegisterUser, BioUsers
+from Shop.models import Announcement
 
 
 
@@ -16,6 +17,8 @@ class Users(admin.ModelAdmin):
     get_html_photo_user.short_description = "Превью"
     
 admin.site.register(CustomRegisterUser)
+admin.site.register(Announcement)
+
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')

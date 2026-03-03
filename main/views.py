@@ -8,7 +8,6 @@ from .models import SetupPosts, CommentPost
 from django.urls import reverse_lazy, reverse
 from django.db.models import Count
 from django.core.paginator import Paginator
-# Create your views here.
 
 class MainPagePostViews(ListView):
     template_name = 'main/index.html'

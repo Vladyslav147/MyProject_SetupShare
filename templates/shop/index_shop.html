@@ -1,0 +1,152 @@
+{% extends "base_shop.html" %}
+{% load static %}
+
+    {% block extra_css %}
+        <link rel="stylesheet" href="{% static "shop/index_shop.css" %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% endblock extra_css %}
+
+{% block content %}
+<div class="container">
+    
+<div class="top-bar">
+    <h2 class="section-title">Свежие предложения</h2>
+    
+    <div class="controls-wrapper" style="display: flex; gap: 10px;">
+        <div class="filter-container">
+            <button class="filter-main" id="productsBtn">
+                <i class="fa-solid fa-basket-shopping"></i> Товары
+            </button>
+            
+            <div class="filter-dropdown" id="productsDropdown">
+                <div class="filter-content">
+                    <a href="?category=electronics" class="filter-link">
+                        Видеокарта
+                    </a>
+                    <a href="?category=accessories" class="filter-link">
+                        Процессор
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        Блок питания
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        Оперативка
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        Материнская плата
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        Охлаждение
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        Корпус
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        SSD
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        Монитор
+                    </a>
+                    <a href="?category=peripherals" class="filter-link">
+                        Клавиатура
+                    </a>                    
+                    <a href="?category=peripherals" class="filter-link">
+                        Другое
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-container">
+            <button class="filter-main" id="filterBtn">
+                <i class="fa-solid fa-sliders"></i> Фильтры
+            </button>
+            
+            <div class="filter-dropdown" id="filterDropdown">
+                <div class="filter-content">
+                    <a href="?status=price_asc" class="filter-link">
+                        <i class="fa-solid fa-arrow-up-wide-short"></i> Сначала дешевые
+                    </a>
+                    <a href="?status=price_desc" class="filter-link">
+                        <i class="fa-solid fa-arrow-down-wide-short"></i> Сначала дорогие
+                    </a>
+                    <a href="?status=newest" class="filter-link">
+                        <i class="fa-solid fa-calendar-days"></i> Новые объявления
+                    </a>
+                    <div class="filter-divider"></div> 
+                    <a href="?status=new" class="filter-link">
+                        <i class="fa-solid fa-box"></i> Новый
+                    </a>
+                    <a href="?status=spareparts" class="filter-link">
+                        <i class="fa-solid fa-box"></i> На запчасти
+                    </a>
+                    <a href="?status=average" class="filter-link">
+                        <i class="fa-solid fa-box"></i> Среднее
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <div class="grid">
+        {% for product in Announcement %}
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{ product.main_photo.url }}" alt="RTX 3080">
+                    <span class="tag tag-new">{{ product.get_state_display}}</span>
+
+                    <form action="{% url 'Shop:like-product' pk=product.pk%}" method='post'>
+                        {% csrf_token %}
+                        <button type='submit' class="like-btn liked"><i class="fa-regular fa-heart {% if request.user in product.likes.all %}fa-solid{% endif %}"></i></button>
+                    </form>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="card-title">{{ product.title }}</h3>
+                    <p class="card-price">{{product.price}} <span>грн</span></p>
+                    
+                    <div class="card-info">
+                        <span class="card-location"><i class="fa-solid fa-location-dot"></i> {{product.city}}</span>
+                        <span class="card-date">{{product.created_to|timesince}} назад</span>
+                    </div>
+                    
+                    <a href="{% url 'Shop:detail-product' pk=product.pk %}" class="btn-more">Посмотреть полностью</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    const filterBtn = document.getElementById('filterBtn');
+    const filterDropdown = document.getElementById('filterDropdown');
+    const productsBtn = document.getElementById('productsBtn');
+    const productsDropdown = document.getElementById('productsDropdown');
+
+    // Функция для переключения выпадающих списков
+    function toggleDropdown(button, dropdownToOpen, dropdownToClose) {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Закрываем другое меню, если оно открыто
+            dropdownToClose.classList.remove('active');
+            // Переключаем текущее
+            dropdownToOpen.classList.toggle('active');
+        });
+    }
+
+    // Применяем логику для обеих кнопок
+    toggleDropdown(filterBtn, filterDropdown, productsDropdown);
+    toggleDropdown(productsBtn, productsDropdown, filterDropdown);
+
+    // Закрывать всё при клике в любом месте экрана
+    document.addEventListener('click', function(e) {
+        if (!filterDropdown.contains(e.target) && !filterBtn.contains(e.target)) {
+            filterDropdown.classList.remove('active');
+        }
+        if (!productsDropdown.contains(e.target) && !productsBtn.contains(e.target)) {
+            productsDropdown.classList.remove('active');
+        }
+    });
+</script>
+{% endblock content %}

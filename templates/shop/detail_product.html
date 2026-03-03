@@ -1,0 +1,136 @@
+{% extends "base_shop.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/detail_product.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<main class="product-wrapper">
+    <div class="back-nav">
+  <a href="{% url 'Shop:mainshop' %}" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="back-icon">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    <span>Вернуться в магазин</span>
+  </a>
+</div>
+    <div class="product-main-grid">
+        
+        <div class="product-content-left">
+            
+            <section class="gallery-container">
+                <div class="main-stage">
+                    <img src="{{ product.main_photo.url}}" alt="Hardware">
+                    <div class="stage-overlay">
+                        <span class="tag-new">{{product.get_state_display}}</span>
+                    </div>
+                    <form action="{% url 'Shop:like-product' pk=product.pk%}" method='post'>
+                        {% csrf_token %}
+                        <button type='submit' class="wishlist-btn {% if request.user in product.likes.all %}liked{% endif %}"><i class="fa-regular fa-heart {% if request.user in product.likes.all %}fa-solid{% endif %}"></i></button>
+                    </form>
+                </div>
+                <div class="thumbnails">
+                    {% for photos in photo%}
+                        <img src="{{photos.photo.url}}" class="active">
+                    {% endfor %}
+                </div>
+            </section>
+
+            <div class="pw-details-container">
+                
+                <section class="info-card">
+                    <h2 class="pw-block-label">Характеристики</h2>
+                    <div class="spec-list">
+                        <div class="spec-row"><span class="pw-spec-name">Состояние:</span> <strong class="pw-spec-value">{{product.get_state_display}}</strong></div>
+                        <div class="spec-row"><span class="pw-spec-name">Производитель:</span> <strong class="pw-spec-value">{{product.manufacture}}</strong></div>
+                        <div class="spec-row"><span class="pw-spec-name">Гарантия:</span> <strong class="pw-spec-value">{{product.guarantee}}</strong></div>
+                        <div class="spec-row"><span class="pw-spec-name">Комплектация:</span> <strong class="pw-spec-value">{{product.complete}}</strong></div>
+                    </div>
+                </section>
+
+                <section class="info-card">
+                    <h2 class="pw-block-label">Описание товара</h2>
+                    <div class="pw-description-text">
+                        <p>{{product.description|linebreaksbr}}</p>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+        <aside class="product-sidebar">
+            <div class="sidebar-card">
+                <div class="meta-row">
+                    <span class="pw-meta-chip"><i class="fa-solid fa-clock"></i> {{product.created_to|timesince}}</span>
+                    <span class="pw-meta-chip"><i class="fa-solid fa-location-dot"></i> {{product.city}}</span>
+                </div>
+
+                <h1 class="pw-product-title">{{product.title}}</h1>
+                <div class="pw-price-tag">{{product.price}} <span>грн</span></div>
+
+                <div class="actions">
+                    <button class="btn-primary2">Написать продавцу</button>
+                    <button class="btn-secondary2" onclick="this.innerHTML='<i class=\'fa-solid fa-phone\'></i> {{product.phone}}'">Показать телефон</button>
+                    
+                    <form action="{% url 'Shop:delet_product' product.pk%}" method="POST" style="width: 100%;" onsubmit="return confirm('Вы уверены, что хотите удалить это объявление?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-danger-pw">
+                            <i class="fa-solid fa-trash-can"></i> Удалить объявление
+                        </button>
+                    </form>
+                    
+                </div>
+
+                <div class="seller-preview">
+                    <div class="seller-avatar">{{product.creator.username|slice:":1"}}</div>
+                        <a href="{% url 'Shop:shop-profile' pk=product.creator.pk%}">
+                            <div class="seller-text">
+                                <span class="pw-s-name">{{product.creator}}</span> 
+                                <span class="pw-s-registered">на сайте с {{ product.creator.date_joined|date:"j E Y"}}</span> 
+                            </div>
+                        </a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<div id="image-modal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="full-image">
+</div>
+
+
+<script>
+const closeBtn = document.querySelector(".close");
+const modal = document.getElementById("image-modal");
+document.querySelectorAll('.active').forEach(img => {
+    img.onclick = function() {
+        const modal = document.getElementById("image-modal");
+        
+        // Меняем display на flex, чтобы сработали центровка и размеры
+        modal.style.display = "flex";
+        document.getElementById("full-image").src = this.src;
+    }
+});
+
+// Закрытие при клике на крестик
+document.querySelector(".close").onclick = () => {
+    document.getElementById("image-modal").style.display = "none";
+}
+
+closeBtn.onclick = function() {
+    modal.style.display = "none";
+}
+
+// БОНУС: Закрытие при клике в любое место мимо картинки (на темный фон)
+modal.onclick = function(event) {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "base_shop.css" %}">
+    {% block extra_css %}
+    {% endblock extra_css %}
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+<header class="header">
+    <div class="header-content">
+        <div class="logo"><a href="{% url 'Shop:mainshop'%}">PC<span>MARKET</span></a></div>
+        
+        {% comment %} <div class="search-bar">
+            <input type="text" placeholder="Поиск запчастей...">
+            <button><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>  {% endcomment %}
+
+        <div class="header-tools">
+            <a href="/" class="header-btn btn-back">
+                <i class="fa-solid fa-house"></i> <span>На сайт</span>
+            </a>
+
+            <button id="theme-toggle" class="theme-toggle-btn" title="Переключить тему">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            
+            <a href="{% url 'Shop:add-product' %}" class="header-btn btn-primary">
+                <i class="fa-solid fa-circle-plus"></i> Подать объявление
+            </a>
+            
+            <a href="{% url 'Shop:shop-profile' pk=request.user.pk %}" class="header-btn btn-secondary">
+                <i class="fa-regular fa-circle-user"></i> Мой профиль
+            </a>
+        </div>
+    </div>
+</header>
+    {% block content %}
+    {% endblock content %}
+
+<script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    const icon = themeToggle.querySelector('i');
+
+    // Проверка сохраненной темы при загрузке
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark-mode');
+        icon.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        
+        if (body.classList.contains('dark-mode')) {
+            icon.classList.replace('fa-moon', 'fa-sun');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            icon.classList.replace('fa-sun', 'fa-moon');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+</script>
+</body>
+</html>
