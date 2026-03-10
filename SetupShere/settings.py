@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'Shop',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -140,7 +141,7 @@ LOGIN_REDIRECT_URL = 'main:main_page'
 #Куда кинуть пользователя, если он НЕ вошел, но пытается зайти на защищенную страницу
 LOGIN_URL = 'users:login'
 #Куда кинуть пользователя, если он выйдет из акаунта
-LOGOUT_REDIRECT_URL = 'main:main_page'
+LOGOUT_REDIRECT_URL = 'users:login'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

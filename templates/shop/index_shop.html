@@ -96,10 +96,14 @@
                     <img src="{{ product.main_photo.url }}" alt="RTX 3080">
                     <span class="tag tag-new">{{ product.get_state_display}}</span>
 
-                    <form action="{% url 'Shop:like-product' pk=product.pk%}" method='post'>
-                        {% csrf_token %}
-                        <button type='submit' class="like-btn liked"><i class="fa-regular fa-heart {% if request.user in product.likes.all %}fa-solid{% endif %}"></i></button>
-                    </form>
+                        
+                <button type='button' 
+                        class="like-btn {% if request.user in product.likes.all %}liked{% endif %}"
+                        data-url="{% url 'Shop:like-product' pk=product.pk %}">
+                    
+                    <i class="{% if request.user in product.likes.all %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+                </button>
+
                 </div>
                 
                 <div class="card-content">
@@ -148,5 +152,37 @@
             productsDropdown.classList.remove('active');
         }
     });
+
+
+document.querySelectorAll('.like-btn').forEach(button => {
+    button.onclick = function() {
+        const url = this.dataset.url;
+        const icon = this.querySelector('i'); // Ищем иконку только внутри НАЖАТОЙ кнопки
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Ошибка сети');
+            return response.json();
+        })
+        .then(data => {
+            // Меняем вид иконки в зависимости от того, что ответил Django
+            if (data.liked) {
+                icon.classList.replace('fa-regular', 'fa-solid');
+            } else {
+                icon.classList.replace('fa-solid', 'fa-regular');
+            }
+            
+            // Опционально: переключаем класс 'liked' на самой кнопке для цвета
+            this.classList.toggle('liked', data.liked);
+        })
+        .catch(error => console.error('Ошибка:', error));
+    };
+});
 </script>
 {% endblock content %}

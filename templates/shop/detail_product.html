@@ -27,10 +27,14 @@
                     <div class="stage-overlay">
                         <span class="tag-new">{{product.get_state_display}}</span>
                     </div>
-                    <form action="{% url 'Shop:like-product' pk=product.pk%}" method='post'>
-                        {% csrf_token %}
-                        <button type='submit' class="wishlist-btn {% if request.user in product.likes.all %}liked{% endif %}"><i class="fa-regular fa-heart {% if request.user in product.likes.all %}fa-solid{% endif %}"></i></button>
-                    </form>
+
+                    <button type='button' 
+                                class="wishlist-btn {% if request.user in product.likes.all %}liked{% endif %}"
+                                data-url="{% url 'Shop:like-product' pk=product.pk %}"
+                                data-id="{{ product.pk }}">
+                            <i class="fa-heart {% if request.user in product.likes.all %}fa-solid{% else %}fa-regular{% endif %}"></i>
+                    </button>
+
                 </div>
                 <div class="thumbnails">
                     {% for photos in photo%}
@@ -132,5 +136,39 @@ modal.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+// Используем querySelectorAll, чтобы найти ВСЕ кнопки в цикле
+document.querySelectorAll('.wishlist-btn').forEach(button => {
+    button.onclick = function() {
+        const url = this.dataset.url;
+        const icon = this.querySelector('i'); // Ищем иконку только ВНУТРИ этой кнопки
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Ошибка сети');
+            return response.json();
+        })
+        .then(data => {
+            // 1. Меняем состояние кнопки (для CSS цвета)
+            this.classList.toggle('liked', data.liked);
+
+            // 2. Меняем саму иконку (закрашенная/пустая)
+            if (data.liked) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+            }
+        })
+        .catch(error => console.error('Ошибка:', error));
+    };
+});
 </script>
 {% endblock %}

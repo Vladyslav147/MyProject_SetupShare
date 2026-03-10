@@ -21,6 +21,8 @@
             <a href="?status=all" class="filter-btn {% if request.GET.status == 'all' or not request.GET.status %}active{% endif %}">Все посты</a>
             <a href="?status=old" class="filter-btn {% if request.GET.status == 'old'%}active{% endif %}">Давние посты</a>
             <a href="?status=likes" class="filter-btn {% if request.GET.status == 'likes'%}active{% endif %}">Популярные</a>
+            <a href="?status=help" class="filter-btn {% if request.GET.status == 'help'%}active{% endif %}">Помощь</a>
+
         </div>
 
         
@@ -46,7 +48,7 @@
                         <p class="card-text">{{post.story_setup|truncatewords:10}}</p>
 
                         <!-- Детальная инфа поста -->
-                        <form action="{% url 'main:detail_post' post.pk %}">
+                        <form action="{% url 'main:detail_post' post.pk %}?next={{ request.get_full_path|urlencode }}">
                             {% csrf_token %}
                             <div class="mt-auto d-flex justify-content-center">
                                 <button type='submit' onclick="location.href='detail.html'" class="btn-details">ПОДРОБНЕЕ →</button>

@@ -8,6 +8,9 @@ from .models import SetupPosts, CommentPost
 from django.urls import reverse_lazy, reverse
 from django.db.models import Count
 from django.core.paginator import Paginator
+from rest_framework.generics import *
+from .serializers import SetupPostsSelializer
+from django.http import JsonResponse
 
 class MainPagePostViews(ListView):
     template_name = 'main/index.html'
@@ -22,6 +25,8 @@ class MainPagePostViews(ListView):
             return SetupPosts.objects.order_by('time')
         elif sort == 'likes':
             return SetupPosts.objects.annotate(lik=Count('likes')).order_by('-lik')
+        elif sort == 'help':
+            return SetupPosts.objects.filter(tegs__name='help')
         else:
             return SetupPosts.objects.all().order_by('-time')
         
@@ -78,7 +83,9 @@ class Post_likesView(LoginRequiredMixin, View):
         else:
             posts.likes.add(request.user)
 
-        return redirect('main:detail_post', pk=pk)
+        return JsonResponse({
+            'count': posts.get_total_likes()
+        })
     
 
 class UpdatePostView(LoginRequiredMixin, UpdateView):
@@ -98,5 +105,11 @@ class CommentLikesView(LoginRequiredMixin, View):
             comment.comment_likes.remove(request.user)
         else:
             comment.comment_likes.add(request.user)
-        return redirect('main:detail_post', pk=comment.post.pk)
+
+        return JsonResponse({
+            'count': comment.total_likes_comment
+        })
     
+class SetupPostAPI(ListCreateAPIView):
+    queryset = SetupPosts.objects.all()
+    serializer_class = SetupPostsSelializer

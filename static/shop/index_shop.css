@@ -99,7 +99,7 @@ body.dark-mode .btn-more {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .filter-dropdown.active {
-    max-height: 400px; /* Достаточно для всех ссылок */
+    max-height: 650px; /* Достаточно для всех ссылок */
     opacity: 1;
     transform: translateY(0);
     padding: 8px 0;
@@ -337,4 +337,3 @@ body.dark-mode .like-btn:hover {
     color: #ff4d4d; /* Агрессивный красный при наведении */
     transform: scale(1.1);
 }
-

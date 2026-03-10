@@ -411,3 +411,64 @@
 .btn-comment-like i {
     font-size: 0.75rem;
 }
+/* Контейнер для тегов */
+.product-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px; /* Отступ от текста описания */
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1a1a1a; /* Разделительная линия */
+}
+
+/* Стиль отдельного тега */
+.tag-item {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(59, 130, 246, 0.05); /* Очень слабый синий фон */
+    border: 1px solid #222;
+    border-radius: 50px; /* Скругленные края */
+    color: #94a3b8; /* Спокойный серый цвет текста */
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Эффект при наведении на тег */
+.tag-item:hover {
+    color: #fff;
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); /* Мягкое свечение */
+    transform: translateY(-2px);
+}
+.assembly-tags-stealth {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+    margin-top: -5px; /* Чуть ближе к заголовку */
+}
+
+.tag-lowkey {
+    font-size: 0.75rem;     /* Чуть-чуть увеличил, чтобы жирность читалась */
+    font-weight: 800;       /* Максимальная толщина */
+    color: #52525b;         /* Глубокий серый (muted) */
+    background: #161616;    /* Почти сливается с карточкой */
+    border: 1px solid #262626; 
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;    /* Раздвинул буквы для стиля */
+    transition: all 0.2s ease;
+}
+
+.tag-lowkey:hover {
+    color: #a1a1aa;         /* При наведении становится светлее */
+    border-color: #3f3f46;
+    background: #1a1a1a;
+    cursor: pointer;
+}

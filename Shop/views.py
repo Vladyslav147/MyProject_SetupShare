@@ -9,15 +9,21 @@ from .models import Announcement, PhotoAnnouncement
 from django.contrib import messages
 from Shop import models
 from users.models import CustomRegisterUser
+from django.db.models import Q
 # Create your views here.
-
+from django.http import JsonResponse
 class ShopPageView(LoginRequiredMixin, ListView):
     template_name = 'shop/index_shop.html'
     context_object_name = 'Announcement'
     model = Announcement
     
     def get_queryset(self):
+        query = self.request.GET.get('q')
         sort = self.request.GET.get('status')
+
+        if query:
+            return Announcement.objects.filter(Q(title__icontains=query)| Q(description__icontains=query))
+
         if sort == 'price_asc':
             return Announcement.objects.order_by('price')
         elif sort == 'price_desc':
@@ -32,7 +38,12 @@ class ShopPageView(LoginRequiredMixin, ListView):
             return Announcement.objects.filter(state='average')
         else:
             return Announcement.objects.all()
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get('q')
+        return context
+    
 
 
 class AddProductView(LoginRequiredMixin, CreateView):
@@ -112,6 +123,11 @@ class LikeProductView(LoginRequiredMixin, View):
         product_id = get_object_or_404(models.Announcement, pk=pk)
         if request.user in product_id.likes.all():
             product_id.likes.remove(request.user)
+            like = False
         else:
             product_id.likes.add(request.user)
-        return redirect(request.META.get('HTTP_REFERER', 'Shop:mainshop'))
+            like = True
+
+        return JsonResponse({
+            'liked': like
+        })

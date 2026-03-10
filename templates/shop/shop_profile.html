@@ -64,13 +64,24 @@
     </div>
 
     <div id="my-posts" class="tab-content active products-grid">
-      
+
+    {# посты продуктов в профиле #}
     {% for products in product %}
         <article class="card">
             <div class="card-img-box">
             <img src="{{products.main_photo.url}}" alt="Монитор" class="card-image">
             <span class="badge">{{products.get_state_display}}</span>
-            <button class="like-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+
+            <button class="like-btn {% if request.user in products.likes.all %}liked{% endif %}" 
+                    data-url="{% url 'Shop:like-product' products.pk %}"
+                    data-id="{{ products.pk }}">
+                <svg viewBox="0 0 24 24" 
+                    fill="{% if request.user in products.likes.all %}currentColor{% else %}none{% endif %}" 
+                    stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+            </button>
+            
             </div>
             <h3 class="card-title">{{products.title}}</h3>
             <div class="card-price">{{products.price}} <span>грн</span></div>
@@ -113,24 +124,42 @@
       }
     });
   });
+ 
+const likeBtns = document.querySelectorAll('.like-btn');
 
-  // НОВЫЙ СКРИПТ: Логика кнопки лайка
-  const likeBtns = document.querySelectorAll('.like-btn');
-  likeBtns.forEach(btn => {
+likeBtns.forEach(btn => {
     btn.addEventListener('click', function() {
-      // Добавляем или убираем класс 'liked'
-      this.classList.toggle('liked');
-      
-      // Находим SVG внутри кнопки
-      const icon = this.querySelector('svg');
-      
-      // Меняем заливку: если лайкнуто - закрашиваем, если нет - делаем пустым
-      if (this.classList.contains('liked')) {
-        icon.setAttribute('fill', 'currentColor');
-      } else {
-        icon.setAttribute('fill', 'none');
-      }
+        const url = this.dataset.url; // Берем ссылку из кнопки
+        const icon = this.querySelector('svg'); // Находим иконку
+        
+        // 1. Отправляем сигнал на сервер (Django)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Ошибка сети');
+            return response.json(); // Ждем JSON от сервера
+        })
+        .then(data => {
+            // 2. ЗДЕСЬ МЫ ПОЛУЧАЕМ СТАТУС (data.liked)
+            // И меняем стили на основе реальных данных из базы
+            if (data.liked) {
+                this.classList.add('liked');
+                icon.setAttribute('fill', 'currentColor');
+            } else {
+                this.classList.remove('liked');
+                icon.setAttribute('fill', 'none');
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Не удалось поставить лайк. Проверь интернет или авторизацию!');
+        });
     });
-  });
+});
 </script>
 {% endblock content %}

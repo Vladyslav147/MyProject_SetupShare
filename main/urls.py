@@ -10,4 +10,6 @@ urlpatterns = [
     path('post-like/<int:pk>', views.Post_likesView.as_view(), name='posts-likes'),
     path('detail/edit-post/<int:pk>', views.UpdatePostView.as_view(), name='edit_post'),
     path('detail/likes/<int:pk>/', views.CommentLikesView.as_view(), name='comment-likes'),
+
+    path('setup_post/api', views.SetupPostAPI.as_view(), name='api')
 ]

@@ -23,6 +23,7 @@ class Announcement(models.Model):
         ('keyboard', 'Клавиатура'),
         ('others', 'Другое')
     ]
+    
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     main_photo = models.ImageField(upload_to='Shop/main_photo')
     title = models.CharField(max_length=100)
@@ -36,7 +37,6 @@ class Announcement(models.Model):
     complete = models.CharField(max_length=100)
     description = models.TextField()
     created_to = models.DateTimeField(auto_now_add=True)
-
 
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like')
 

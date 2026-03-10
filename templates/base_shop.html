@@ -14,10 +14,15 @@
     <div class="header-content">
         <div class="logo"><a href="{% url 'Shop:mainshop'%}">PC<span>MARKET</span></a></div>
         
-        {% comment %} <div class="search-bar">
-            <input type="text" placeholder="Поиск запчастей...">
-            <button><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>  {% endcomment %}
+        {# строка поиска товара по названию #}
+        <div class="search-container">
+            <form action="{% url 'Shop:mainshop' %}" method="GET" class="search-bar">
+                <input type="text" name="q" placeholder="Поиск комплектующих, ПК..." value='{{query|default:""}}' aria-label="Search">
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+        </div>
 
         <div class="header-tools">
             <a href="/" class="header-btn btn-back">

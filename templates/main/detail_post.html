@@ -50,8 +50,15 @@
 
             <div class="assembly-card">
                 <h2 class="assembly-title">История сборки</h2>
+
+                <div class="assembly-tags-stealth">
+                    {% for tag in DetailPost.tegs.all %}
+                        <span class="tag-lowkey">{{tag.name}}</span>
+                    {% endfor %}
+                </div>
+
                 <p class="assembly-text">
-                    {{DetailPost.story_setup|linebreaksbr|default:"История не написана"}} <!-- linebreaksbr - не игнорирует \n в тексте -->
+                    {{DetailPost.story_setup|linebreaksbr|default:"История не написана"}}
                 </p>
             </div>
 
@@ -81,14 +88,17 @@
                             <p class="comment-text">{{ comment.text }}</p>
 
                             <div class="comment-footer mt-2"> 
-                                <!-- Форма лайка коментария-->
-                                <form method='POST' action="{% url 'main:comment-likes' pk=comment.pk %}">
-                                    {% csrf_token %}
-                                    <button type='submit' class="btn-comment-like {% if request.user in comment.comment_likes.all %}liked{% endif %}">    <!-- liked-->
-                                        <i class="bi bi-heart-fill"></i>
-                                        <span class="comment-like-count">{{comment.total_likes_comment}}</span>
-                                    </button>
-                                </form>
+                            <!-- Кнопка лайка коментария-->
+                            <button type="button" 
+                                    class="btn-comment-like"
+                                    data-id="{{ comment.pk }}" 
+                                    data-url="{% url 'main:comment-likes' pk=comment.pk %}"
+                                    id="like-btn-{{ comment.pk }}">
+                                <i class="bi bi-heart-fill"></i>
+                                <span class="comment-like-count" id="like-count-{{ comment.pk }}">
+                                    {{ comment.total_likes_comment }}
+                                </span>
+                            </button>
                                 
                             </div>
                         </div>
@@ -100,14 +110,15 @@
         <div class="col-lg-4">
             <div class="d-grid gap-3 mb-4">
                 <!-- Форма лайка -->
-                <form action="{% url 'main:posts-likes' DetailPost.pk %}" method='post'>
-                    {% csrf_token %}
-                    <button type='submit' class="btn btn-like fw-bold py-3 d-flex align-items-center justify-content-center w-100 {% if request.user in DetailPost.likes.all %}liked{% endif %}">
+                    <button type='button' class="btn btn-like fw-bold py-3 d-flex align-items-center justify-content-center w-100 {% if request.user in DetailPost.likes.all %}liked{% endif %}"
+                            data-id="{{DetailPost.pk}}"
+                            data-url="{% url 'main:posts-likes' DetailPost.pk %}"
+                            id="main-post-like">
                         <i class="bi bi-heart-fill me-2"></i> 
                         МНЕ НРАВИТСЯ 
-                        <span class="ms-2 like-count">{{ DetailPost.get_total_likes }}</span>
+                        <span class="ms-2 like-count" id="main-post-like-count">{{ DetailPost.get_total_likes }}</span>
                     </button>
-                </form>
+                
 
                 <!-- Твой ли это пост что бы ты мог удалить или редактировать -->
                 {% if DetailPost.creator == request.user %}
@@ -160,13 +171,64 @@
 function expandImage(src) {
     const popup = document.getElementById('image-popup');
     const img = document.getElementById('popup-img');
-    img.src = src; // Устанавливаем адрес картинки
-    popup.style.display = 'block'; // Показываем блок
-    document.body.style.overflow = 'hidden'; // Запрещаем прокрутку сайта под картинкой
+    img.src = src;
+    popup.style.display = 'block';
+    document.body.style.overflow = 'hidden';
 }
 function closeImage() {
     document.getElementById('image-popup').style.display = 'none';
     document.body.style.overflow = 'auto'; // Возвращаем прокрутку
 }
+
+document.querySelectorAll('.btn-comment-like').forEach(button => {
+    button.onclick = function() {
+        const url = this.dataset.url; // Берем готовый URL из атрибута кнопки
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Ошибка сети');
+            return response.json();
+        })
+        .then(data => {
+            const commentId = this.dataset.id;
+            const countSpan = document.getElementById(`like-count-${commentId}`);
+            countSpan.innerText = data.count;
+            this.classList.toggle('liked', data.liked);
+        })
+        .catch(error => console.error('Ошибка:', error));
+    };
+});
+
+// 1. Находим ОДНУ конкретную кнопку по её ID
+const likeButton = document.getElementById('main-post-like');
+
+// 2. Вешаем событие клика напрямую на эту переменную
+likeButton.onclick = function() {
+    const url = this.dataset.url;
+    
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Ошибка сети');
+        return response.json();
+    })
+    .then(data => {
+        const countSpan = document.getElementById('main-post-like-count');
+        countSpan.innerText = data.count;
+        this.classList.toggle('liked', data.liked);
+    })
+    .catch(error => console.error('Ошибка:', error));
+};
 </script>
 {% endblock content %}
